@@ -1,5 +1,7 @@
 # Django settings for timetable project.
 
+from os import environ
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -9,25 +11,49 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'db.sql3',                      # Or path to database file if using sqlite3.
+#        'USER': '',                      # Not used with sqlite3.
+#        'PASSWORD': '',                  # Not used with sqlite3.
+#        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+#    }
+#}
+
+SQLENGINE = 'django.db.backends.mysql'
+
+if environ.get("APP_NAME", ""):
+    from sae.const import *
+    
+else:    
+    MYSQL_DB = 'testdb' 
+    MYSQL_USER = 'user1' 
+    MYSQL_PASS = 'Changeme1' 
+    MYSQL_HOST = '127.0.0.1' 
+    MYSQL_HOST_S = '' 
+    MYSQL_PORT = '3306'
+    #SQLENGINE = 'django.db.backends.sqlite3'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db.sql3',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': SQLENGINE,
+        'NAME': MYSQL_DB,
+        'USER': MYSQL_USER,
+        'PASSWORD': MYSQL_PASS,
+        'HOST': MYSQL_HOST,
+        'PORT': MYSQL_PORT,
     }
 }
-
-# Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
-# In a Windows environment this must be set to your system time zone.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
 TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
@@ -82,7 +108,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '=k)d3!!7(pa-p-(hg)sxuwxos1bss$z9n#0)v@0%g2r)hj@u9&amp;'
+SECRET_KEY = 'e^(@5%na5rzfoo#0)25i*wmq-^!_lpkznz*^r$(b_z7q0qip^#'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
