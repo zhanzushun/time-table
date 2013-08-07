@@ -7,6 +7,7 @@ package userclasses;
 import generated.StateMachineBase;
 import com.codename1.ui.*; 
 import com.codename1.ui.events.*;
+import com.codename1.ui.layouts.CoordinateLayout;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.util.Hashtable;
 import java.util.Vector;
 import com.codename1.components.InfiniteProgress;
+import com.codename1.ui.geom.Rectangle;;
 
 
 /**
@@ -24,6 +26,7 @@ import com.codename1.components.InfiniteProgress;
  * @author Your name here
  */
 public class StateMachine extends StateMachineBase {
+	private Form mainform;
     public StateMachine(String resFile) {
         super(resFile);
         // do not modify, write code in initVars and initialize class members there,
@@ -38,19 +41,82 @@ public class StateMachine extends StateMachineBase {
 	}
 
     @Override
-    protected void beforeMain(Form f) {
+    protected void postMain(Form f) {
+    	Label l = findLabel();
+    	int display_w = Display.getInstance().getDisplayWidth();
+    	int display_h = Display.getInstance().getDisplayHeight();
+    	f.setLayout(new CoordinateLayout(display_w, display_h));
+    	l.setX(0);
+    	l.setY(0);
+    	mainform = f;
     	updateContent();
     }
     
     private void updateContent() {
-        //InfiniteProgress inf = new InfiniteProgress();
-        //Dialog progress = inf.showInifiniteBlocking();
-        //updateContent(progress);
-    	updateContentImpl();
+        InfiniteProgress inf = new InfiniteProgress();
+        Dialog progress = inf.showInifiniteBlocking();
+        updateContent(progress);
     }
     
-    //private void updateContent(final Dialog progress) {
-    private void updateContentImpl() {    	
+    private int getWeekDay(String weekday)
+    {
+    	if (weekday.equalsIgnoreCase("Monday"))
+    		return 0;
+    	if (weekday.equalsIgnoreCase("Tuesday"))
+    		return 1;
+    	if (weekday.equalsIgnoreCase("Wednesday"))
+    		return 2;
+    	if (weekday.equalsIgnoreCase("Thursday"))
+    		return 3;
+    	if (weekday.equalsIgnoreCase("Friday"))
+    		return 4;
+    	if (weekday.equalsIgnoreCase("Saturday"))
+    		return 5;
+    	if (weekday.equalsIgnoreCase("Sunday"))
+    		return 6;
+    	return 0;
+    }
+    private double getRow(String start_time, String end_time)
+    {
+    	return 4;
+    }
+    
+    private Rectangle calculatePosition(String weekday, String start_time, String end_time)
+    {
+    	int w=1072;
+    	int h=750;
+    	int t=176;
+    	int l=125;
+    	int cellw=118;
+    	int sepw=16;
+    	int cellh=46;
+    	int seph=0;
+    	int cols=6;
+    	int rows=9;
+    	
+    	int x = l + getWeekDay(weekday) * (cellw + sepw);
+    	int y = (int) (t + getRow(start_time, end_time) * (cellh + seph));
+    	
+    	Rectangle result = new Rectangle(x, y, cellw, cellh);
+    	return result;
+    }
+    
+    private Rectangle convertToDisplay(Rectangle rc)
+    {
+    	int w=1072;
+    	int h=750;
+    	
+    	int display_w = Display.getInstance().getDisplayWidth();
+    	int display_h = Display.getInstance().getDisplayHeight() + 20;
+    	
+    	int x = (int) (rc.getX() / (double)h * display_h);
+    	int y = (int) (rc.getY() / (double)h * display_h);
+    	int h1 = (int) (rc.getSize().getWidth() / (double)h * display_h);
+    	int w1 = (int) (rc.getSize().getHeight() / (double)h * display_h);
+    	return new Rectangle(x, y, h1, w1);
+    }
+    
+    private void updateContent(final Dialog progress) {
         try {
             ConnectionRequest req = new ConnectionRequest() {
                 protected void readResponse(InputStream input) throws IOException {
@@ -79,18 +145,27 @@ public class StateMachine extends StateMachineBase {
                         String site = (String) entry.get("site");
                         String site_address = (String) entry.get("site_address");
                         String teacher = (String) entry.get("teacher");         
-                        findList().getModel().addItem(weekday + 
-                        		"," + weekday_chinese +
-                        		"," + start_time +
-                        		"," + end_time +
-                        		"," + lesson +
-                        		"," + lesson_chinese +
-                        		"," + site +
-                        		"," + site_address +
-                        		"," + teacher
-                        		);
+//                        findList().getModel().addItem(weekday + 
+//                        		"," + weekday_chinese +
+//                        		"," + start_time +
+//                        		"," + end_time +
+//                        		"," + lesson +
+//                        		"," + lesson_chinese +
+//                        		"," + site +
+//                        		"," + site_address +
+//                        		"," + teacher
+//                        		);
+                        Label l = new Label(lesson);
+                        Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, end_time)); 
+                    	l.setX(rc.getX());
+                    	l.setY(rc.getY());
+                    	l.setPreferredSize(rc.getSize());
+//                    	l.getUnselectedStyle().setBgTransparency(100);
+//                    	l.getUnselectedStyle().setBgColor(0xff);
+                    	mainform.addComponent(l);
+
                     }
-                    //progress.dispose();
+                    progress.dispose();
                 	}
                 	catch(IOException ex) {
                 		ex.printStackTrace();
@@ -103,7 +178,7 @@ public class StateMachine extends StateMachineBase {
             req.setPost(false);
 
             NetworkManager.getInstance().addToQueue(req);
-        } //https://maps.googleapis.com/maps/api/place/search/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&sensor=false&key=AIzaSyDdCsmiS9AT6MfFEWi_Vy87LJ0B2khZJME
+        }
         catch (Exception ex) {
             ex.printStackTrace();
         }

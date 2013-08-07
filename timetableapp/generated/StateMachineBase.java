@@ -32,10 +32,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     public Container startApp(Resources res, String resPath, boolean loadTheme) {
         initVars();
-        UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
-        UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -70,10 +68,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     public Container createWidget(Resources res, String resPath, boolean loadTheme) {
         initVars();
-        UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
-        UIBuilder.registerCustomComponent("List", com.codename1.ui.List.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -111,18 +107,6 @@ public abstract class StateMachineBase extends UIBuilder {
         this(res, null, loadTheme);
     }
 
-    public com.codename1.ui.Tabs findTabs(Component root) {
-        return (com.codename1.ui.Tabs)findByName("Tabs", root);
-    }
-
-    public com.codename1.ui.Tabs findTabs() {
-        com.codename1.ui.Tabs cmp = (com.codename1.ui.Tabs)findByName("Tabs", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Tabs)findByName("Tabs", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.ui.Label findLabel(Component root) {
         return (com.codename1.ui.Label)findByName("Label", root);
     }
@@ -131,18 +115,6 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("Label", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Label)findByName("Label", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
-    public com.codename1.ui.List findList(Component root) {
-        return (com.codename1.ui.List)findByName("List", root);
-    }
-
-    public com.codename1.ui.List findList() {
-        com.codename1.ui.List cmp = (com.codename1.ui.List)findByName("List", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.List)findByName("List", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -226,36 +198,5 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void onCreateMain() {
     }
-
-    protected boolean setListModel(List cmp) {
-        String listName = cmp.getName();
-        if("List".equals(listName)) {
-            return initListModelList(cmp);
-        }
-        return super.setListModel(cmp);
-    }
-
-    protected boolean initListModelList(List cmp) {
-        return false;
-    }
-
-    protected void handleComponentAction(Component c, ActionEvent event) {
-        Container rootContainerAncestor = getRootAncestor(c);
-        if(rootContainerAncestor == null) return;
-        String rootContainerName = rootContainerAncestor.getName();
-        if(c.getParent().getLeadParent() != null) {
-            c = c.getParent().getLeadParent();
-        }
-        if(rootContainerName == null) return;
-        if(rootContainerName.equals("Main")) {
-            if("List".equals(c.getName())) {
-                onMain_ListAction(c, event);
-                return;
-            }
-        }
-    }
-
-      protected void onMain_ListAction(Component c, ActionEvent event) {
-      }
 
 }
