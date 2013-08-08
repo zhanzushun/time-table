@@ -18,7 +18,8 @@ import java.io.InputStreamReader;
 import java.util.Hashtable;
 import java.util.Vector;
 import com.codename1.components.InfiniteProgress;
-import com.codename1.ui.geom.Rectangle;;
+import com.codename1.ui.geom.Rectangle;
+import com.codename1.ui.Dialog;
 
 
 /**
@@ -27,6 +28,8 @@ import com.codename1.ui.geom.Rectangle;;
  */
 public class StateMachine extends StateMachineBase {
 	private Form mainform;
+	private int image_h;
+	
     public StateMachine(String resFile) {
         super(resFile);
         // do not modify, write code in initVars and initialize class members there,
@@ -42,13 +45,14 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
+    	mainform = f;
     	Label l = findLabel();
+    	image_h = l.getIcon().getHeight();
     	int display_w = Display.getInstance().getDisplayWidth();
     	int display_h = Display.getInstance().getDisplayHeight();
     	f.setLayout(new CoordinateLayout(display_w, display_h));
     	l.setX(0);
     	l.setY(0);
-    	mainform = f;
     	updateContent();
     }
     
@@ -76,9 +80,24 @@ public class StateMachine extends StateMachineBase {
     		return 6;
     	return 0;
     }
-    private double getRow(String start_time, String end_time)
+    
+    private double getRow(String time)
     {
-    	return 4;
+    	int index = time.indexOf(":");
+    	if (index == -1)
+    		return 0;
+    	int s_h = Integer.parseInt(time.substring(0, index));
+    	
+    	double result = 0;
+    	String min_sec = time.substring(index + 1);
+    	int index2 = min_sec.indexOf(":");
+    	if (index2 == -1)
+    		result = s_h;
+    	else {
+    		int s_m = Integer.parseInt(min_sec.substring(0, index2));
+    		result = s_h + s_m / 60.0;
+    	}
+    	return (result - 10) / 11.0 * 9.0; // 9 rows present 11 hours starting from 8:00AM
     }
     
     private Rectangle calculatePosition(String weekday, String start_time, String end_time)
@@ -95,9 +114,11 @@ public class StateMachine extends StateMachineBase {
     	int rows=9;
     	
     	int x = l + getWeekDay(weekday) * (cellw + sepw);
-    	int y = (int) (t + getRow(start_time, end_time) * (cellh + seph));
+    	int y1 = (int) (t + getRow(start_time) * (cellh + seph));
+    	//int y2 = (int) (t + getRow(end_time) * (cellh + seph));
+    	int y2 = y1 + cellh;
     	
-    	Rectangle result = new Rectangle(x, y, cellw, cellh);
+    	Rectangle result = new Rectangle(x, y1, cellw, y2 - y1);
     	return result;
     }
     
@@ -106,13 +127,10 @@ public class StateMachine extends StateMachineBase {
     	int w=1072;
     	int h=750;
     	
-    	int display_w = Display.getInstance().getDisplayWidth();
-    	int display_h = Display.getInstance().getDisplayHeight() + 20;
-    	
-    	int x = (int) (rc.getX() / (double)h * display_h);
-    	int y = (int) (rc.getY() / (double)h * display_h);
-    	int h1 = (int) (rc.getSize().getWidth() / (double)h * display_h);
-    	int w1 = (int) (rc.getSize().getHeight() / (double)h * display_h);
+    	int x = (int) (rc.getX() / (double)h * image_h);
+    	int y = (int) (rc.getY() / (double)h * image_h);
+    	int h1 = (int) (rc.getSize().getWidth() / (double)h * image_h);
+    	int w1 = (int) (rc.getSize().getHeight() / (double)h * image_h);
     	return new Rectangle(x, y, h1, w1);
     }
     
@@ -121,62 +139,48 @@ public class StateMachine extends StateMachineBase {
             ConnectionRequest req = new ConnectionRequest() {
                 protected void readResponse(InputStream input) throws IOException {
                 	try{
-                    JSONParser p = new JSONParser();
-                    Hashtable h = p.parse(new InputStreamReader(input));
-                    
-                    //// "status" : "REQUEST_DENIED"
-                    //String response = (String)h.get("status");
-                    //if(response.equals("REQUEST_DENIED")){
-                        //System.out.println("Something wrong");
-                        //progress.dispose();
-                        //Dialog.show("Info", "Request denied", "Ok", null);
-                        //return;
-                    //}
-                        
-                    final Vector v = (Vector) h.get("root");
-                    for (int i = 0; i < v.size(); i++) {
-                        Hashtable entry = (Hashtable) v.elementAt(i);
-                        String weekday = (String) entry.get("weekday");
-                        String weekday_chinese = (String) entry.get("weekday_chinese");
-                        String start_time = (String) entry.get("start_time");
-                        String end_time = (String) entry.get("end_time");
-                        String lesson = (String) entry.get("lesson");
-                        String lesson_chinese = (String) entry.get("lesson_chinese");
-                        String site = (String) entry.get("site");
-                        String site_address = (String) entry.get("site_address");
-                        String teacher = (String) entry.get("teacher");         
-//                        findList().getModel().addItem(weekday + 
-//                        		"," + weekday_chinese +
-//                        		"," + start_time +
-//                        		"," + end_time +
-//                        		"," + lesson +
-//                        		"," + lesson_chinese +
-//                        		"," + site +
-//                        		"," + site_address +
-//                        		"," + teacher
-//                        		);
-                        Label l = new Label(lesson);
-                        Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, end_time)); 
-                    	l.setX(rc.getX());
-                    	l.setY(rc.getY());
-                    	l.setPreferredSize(rc.getSize());
-//                    	l.getUnselectedStyle().setBgTransparency(100);
-//                    	l.getUnselectedStyle().setBgColor(0xff);
-                    	mainform.addComponent(l);
+                		JSONParser p = new JSONParser();
+                		Hashtable h = p.parse(new InputStreamReader(input));
 
-                    }
-                    progress.dispose();
+                		final Vector v = (Vector) h.get("root");
+                		for (int i = 0; i < v.size(); i++) {
+                			Hashtable entry = (Hashtable) v.elementAt(i);
+                			String weekday = (String) entry.get("weekday");
+                			String weekday_chinese = (String) entry.get("weekday_chinese");
+                			final String start_time = (String) entry.get("start_time");
+                			final String end_time = (String) entry.get("end_time");
+                			final String lesson = (String) entry.get("lesson");
+                			final String lesson_chinese = (String) entry.get("lesson_chinese");
+                			String site = (String) entry.get("site");
+                			String site_address = (String) entry.get("site_address");
+                			final String teacher = (String) entry.get("teacher");         
+                			Button l = new Button(lesson);
+                			
+                			Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, end_time)); 
+                			l.setX(rc.getX());
+                			l.setY(rc.getY());
+                			l.setPreferredSize(rc.getSize());
+                			l.setUIID("MyBtn");
+                			l.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									String text = lesson_chinese + "\n" + 
+											start_time + " ~ " + end_time + "\n" +
+											teacher;
+									Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
+								}
+                			});
+                			mainform.addComponent(l);
+
+                		}
+                		progress.dispose();
                 	}
                 	catch(IOException ex) {
                 		ex.printStackTrace();
                 	}
                 }
             };
-            //req.setUrl("http://54.213.75.56");
-            //req.setUrl("http://localhost:8000");
             req.setUrl("http://timetable.sinaapp.com");
             req.setPost(false);
-
             NetworkManager.getInstance().addToQueue(req);
         }
         catch (Exception ex) {
