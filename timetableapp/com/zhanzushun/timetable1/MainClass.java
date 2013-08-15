@@ -1,11 +1,11 @@
-package com.zz.timetable;
+package com.zhanzushun.timetable1;
 
 
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import userclasses.StateMachine;
 
-public class Main {
+public class MainClass {
    
     private Form current;
 

@@ -45,6 +45,8 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
+    	if (f.getName() != "Main")
+    		return;
     	mainform = f;
     	Label l = findLabel();
     	image_h = l.getIcon().getHeight();
@@ -97,26 +99,27 @@ public class StateMachine extends StateMachineBase {
     		int s_m = Integer.parseInt(min_sec.substring(0, index2));
     		result = s_h + s_m / 60.0;
     	}
-    	return (result - 10) / 11.0 * 9.0; // 9 rows present 11 hours starting from 8:00AM
+    	return (result - 9) / 13.0 /*hours*/ * 13.0 /*rows*/; // 13 rows present 13 hours starting from 9:00AM
     }
     
     private Rectangle calculatePosition(String weekday, String start_time, String end_time)
     {
-    	int w=1072;
-    	int h=750;
-    	int t=176;
-    	int l=125;
-    	int cellw=118;
-    	int sepw=16;
-    	int cellh=46;
-    	int seph=0;
-    	int cols=6;
-    	int rows=9;
+    	int w=1235;
+    	int h=1000;
+    	int t=66 + 1;
+    	int l=154 + 1;
+    	int cellw=154 - 3;
+    	int sepw=3;
+    	int cellh=67 - 3;
+    	int seph=3;
+    	int cols=7;
+    	int rows=13;
     	
     	int x = l + getWeekDay(weekday) * (cellw + sepw);
+    	double temp1 = getRow(start_time);
     	int y1 = (int) (t + getRow(start_time) * (cellh + seph));
-    	//int y2 = (int) (t + getRow(end_time) * (cellh + seph));
-    	int y2 = y1 + cellh;
+    	int y2 = (int) (t + getRow(end_time) * (cellh + seph));
+    	//int y2 = y1 + cellh;
     	
     	Rectangle result = new Rectangle(x, y1, cellw, y2 - y1);
     	return result;
@@ -124,8 +127,8 @@ public class StateMachine extends StateMachineBase {
     
     private Rectangle convertToDisplay(Rectangle rc)
     {
-    	int w=1072;
-    	int h=750;
+    	int w=1235;
+    	int h=1000;
     	
     	int x = (int) (rc.getX() / (double)h * image_h);
     	int y = (int) (rc.getY() / (double)h * image_h);
@@ -160,7 +163,7 @@ public class StateMachine extends StateMachineBase {
                 			l.setX(rc.getX());
                 			l.setY(rc.getY());
                 			l.setPreferredSize(rc.getSize());
-                			l.setUIID("MyBtn");
+                			l.setUIID("Following");
                 			l.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									String text = lesson_chinese + "\n" + 
@@ -187,4 +190,5 @@ public class StateMachine extends StateMachineBase {
             ex.printStackTrace();
         }
     }
+
 }
