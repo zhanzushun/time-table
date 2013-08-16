@@ -9,6 +9,7 @@ import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.layouts.CoordinateLayout;
 import com.codename1.ui.util.Resources;
+import com.codename1.ui.util.UITimer;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
@@ -29,6 +30,7 @@ import com.codename1.ui.Dialog;
 public class StateMachine extends StateMachineBase {
 	private Form mainform;
 	private int image_h;
+	private Vector data = null;
 	
     public StateMachine(String resFile) {
         super(resFile);
@@ -45,23 +47,34 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
-    	if (f.getName() != "Main")
-    		return;
     	mainform = f;
+        UITimer ut = new UITimer(new Runnable() {
+            public void run() {
+            	setCoordinateLayout();
+            	if (data == null || data.size() == 0)
+            		updateData();
+            	else
+            		refreshUI_withData();
+            }
+        });
+        ut.schedule(800, false, f);
+    }
+    
+    private void setCoordinateLayout(){
     	Label l = findLabel();
     	image_h = l.getIcon().getHeight();
     	int display_w = Display.getInstance().getDisplayWidth();
     	int display_h = Display.getInstance().getDisplayHeight();
-    	f.setLayout(new CoordinateLayout(display_w, display_h));
-    	l.setX(0);
-    	l.setY(0);
-    	updateContent();
+    	int title_h = mainform.getTitleArea().getPreferredH();
+    	mainform.setLayout(new CoordinateLayout(display_w, display_h - title_h));
+    	mainform.setX(0);
+    	mainform.setY(0);
     }
     
-    private void updateContent() {
+    private void updateData() {
         InfiniteProgress inf = new InfiniteProgress();
         Dialog progress = inf.showInifiniteBlocking();
-        updateContent(progress);
+        updateData(progress);
     }
     
     private int getWeekDay(String weekday)
@@ -137,49 +150,20 @@ public class StateMachine extends StateMachineBase {
     	return new Rectangle(x, y, h1, w1);
     }
     
-    private void updateContent(final Dialog progress) {
+    private void updateData(final Dialog progress) {
         try {
             ConnectionRequest req = new ConnectionRequest() {
                 protected void readResponse(InputStream input) throws IOException {
                 	try{
                 		JSONParser p = new JSONParser();
                 		Hashtable h = p.parse(new InputStreamReader(input));
-
-                		final Vector v = (Vector) h.get("root");
-                		for (int i = 0; i < v.size(); i++) {
-                			Hashtable entry = (Hashtable) v.elementAt(i);
-                			String weekday = (String) entry.get("weekday");
-                			String weekday_chinese = (String) entry.get("weekday_chinese");
-                			final String start_time = (String) entry.get("start_time");
-                			final String end_time = (String) entry.get("end_time");
-                			final String lesson = (String) entry.get("lesson");
-                			final String lesson_chinese = (String) entry.get("lesson_chinese");
-                			String site = (String) entry.get("site");
-                			String site_address = (String) entry.get("site_address");
-                			final String teacher = (String) entry.get("teacher");         
-                			Button l = new Button(lesson);
-                			
-                			Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, end_time)); 
-                			l.setX(rc.getX());
-                			l.setY(rc.getY());
-                			l.setPreferredSize(rc.getSize());
-                			l.setUIID("Following");
-                			l.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									String text = lesson_chinese + "\n" + 
-											start_time + " ~ " + end_time + "\n" +
-											teacher;
-									Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
-								}
-                			});
-                			mainform.addComponent(l);
-
-                		}
-                		progress.dispose();
+                		data = (Vector) h.get("root");
+                		refreshUI_withData();
                 	}
                 	catch(IOException ex) {
                 		ex.printStackTrace();
                 	}
+            		progress.dispose();
                 }
             };
             req.setUrl("http://timetable.sinaapp.com");
@@ -191,4 +175,37 @@ public class StateMachine extends StateMachineBase {
         }
     }
 
+    private void refreshUI_withData() {
+		for (int i = 0; i < data.size(); i++) {
+			Hashtable entry = (Hashtable) data.elementAt(i);
+			String weekday = (String) entry.get("weekday");
+			String weekday_chinese = (String) entry.get("weekday_chinese");
+			final String start_time = (String) entry.get("start_time");
+			final String end_time = (String) entry.get("end_time");
+			final String lesson = (String) entry.get("lesson");
+			final String lesson_chinese = (String) entry.get("lesson_chinese");
+			String site = (String) entry.get("site");
+			String site_address = (String) entry.get("site_address");
+			final String teacher = (String) entry.get("teacher");
+			
+			Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, end_time)); 
+
+			Button l = new Button(lesson);
+			l.setX(rc.getX());
+			l.setY(rc.getY());
+			l.setPreferredSize(rc.getSize());
+			l.setUIID("Following");
+			l.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					String text = lesson_chinese + "\n" + 
+							start_time + " ~ " + end_time + "\n" +
+							teacher;
+					Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
+				}
+			});
+			l.setCellRenderer(true);
+			mainform.addComponent(l);
+		}
+		mainform.getContentPane().repaint();
+    }
 }
