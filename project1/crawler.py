@@ -7,14 +7,17 @@ import re
 import json
 
 def main():
-    results = mainImpl()
-    out = r'c:\temp\json.txt'
+    (areas, results) = mainImpl(False)
+    out = r'c:\temp\areas.txt'
     outFile = open(out, 'w')
-    outFile.write (json.dumps(results, indent = 4, ensure_ascii = False))
+    outFile.write (json.dumps(areas, indent = 4, ensure_ascii = False))
     
-def mainImpl():
+def mainImpl(getDetail):
     f1=open(r'c:\temp\crawler.log', 'w+')
+    
     results = []
+    areas_result = []
+    
     areas = {'上海市' : 121,
         '北京市' : 122,
         '天津市' : 141,
@@ -29,6 +32,7 @@ def mainImpl():
         }
     
     for area in areas:
+        subAreaList = []
         try:
             area_id = areas[area]
             area_url = 'http://www.1012china.com/area.aspx?id={0}'.format(area_id)
@@ -37,11 +41,18 @@ def mainImpl():
             #find non-number like '">xxxx/a>'
             subAreaNameList = [e[2:][0:-4].strip().decode('utf-8') for e in re.findall(r"\">\D*?/a>", area_content)]
             assert(len(subAreaList) == len(subAreaNameList))
+            
+            area_obj = {}
+            area_obj['area'] = area
+            area_obj['area_id'] = area_id
+            area_obj['subareas'] = []
+            areas_result.append(area_obj)
         except:
             print >>f1, "!!!!!!!!", area, area_url
         
         subAreaIndex = 0
         for subAreaId in subAreaList:
+            clubList = []
             try:
                 subAreaName = subAreaNameList[subAreaIndex]
                 subAreaIndex += 1
@@ -51,6 +62,12 @@ def mainImpl():
                 clubList = [e.strip() for e in re.findall(r'(?<=value=")\d+', subAreaContent)]
                 #find non-number like '">xxxx</a>'
                 clubNameList = [e[2:][0:-4].strip().decode('utf-8') for e in re.findall(r'">[^<]*?</a>', subAreaContent)]
+                
+                subArea_obj = {}
+                subArea_obj['subarea'] = subAreaName.encode('utf8')
+                subArea_obj['subarea_id'] = subAreaId
+                subArea_obj['clubs'] = []
+                area_obj['subareas'].append(subArea_obj)
             except:
                 print >>f1, "!!!!!!!!", area, subAreaName, subAreaUrl
                 
@@ -59,6 +76,13 @@ def mainImpl():
                 try:
                     clubName = clubNameList[clubIndex]
                     clubIndex += 1
+                    
+                    club_obj = {}
+                    club_obj['club'] = clubName.encode('utf8')
+                    club_obj['club_id'] = clubId
+                    subArea_obj['clubs'].append(club_obj)
+                    if not getDetail:
+                        continue
                     
                     result = {}
                     room = '瑜伽教室'
@@ -124,9 +148,10 @@ def mainImpl():
                 except:
                     print >>f1, "room3!!!!!!!!", url
                 
-    return results
+    return (areas_result, results)
                 
 def parse(fileContent, resultList, f1):
+    timeList = []
     try:
         timeList = re.findall(r'<tr>\s*<td align="center">\s*<br />\s*\d{2}:\d{2}', fileContent)
         reo = re.compile(r'<tr>\s*<td align="center">\s*<br />\s*\d{2}:\d{2}.*?/tr>', re.S)
@@ -141,6 +166,7 @@ def parse(fileContent, resultList, f1):
     
     timeIndex = 0
     for time in timeList:
+        tdContentList = []
         try:
             time = re.findall(r'\d{2}:\d{2}', time)[0]
             timeContent = trList[timeIndex]
@@ -179,14 +205,5 @@ def parse(fileContent, resultList, f1):
             except:
                 print >>f1, "tdContent:!!!!!!!!", tdContent
                 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+if __name__ == "__main__":
+    main()

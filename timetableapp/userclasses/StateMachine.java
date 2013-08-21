@@ -13,6 +13,8 @@ import com.codename1.ui.util.UITimer;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
+import com.codename1.io.Storage;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,7 +32,21 @@ import com.codename1.ui.Dialog;
 public class StateMachine extends StateMachineBase {
 	private Form mainform;
 	private int image_h;
-	private Vector data = null;
+	
+	private String area;
+	private String areaId;
+	private String subArea;
+	private String subAreaId;
+	private String club;
+	private String clubId;
+	private String room;
+	
+	private String areaListVersion;
+	private String lessonListVersion;
+	
+	private Vector areaList;
+	private Vector lessonList;
+
 	
     public StateMachine(String resFile) {
         super(resFile);
@@ -43,6 +59,19 @@ public class StateMachine extends StateMachineBase {
      * the constructor/class scope to avoid race conditions
      */
 	protected void initVars(Resources res){
+		area = (String) Storage.getInstance().readObject("area");
+		areaId = (String) Storage.getInstance().readObject("area_id");
+		subArea = (String) Storage.getInstance().readObject("sub_area");
+		subAreaId = (String) Storage.getInstance().readObject("subarea_id");
+		club = (String) Storage.getInstance().readObject("club");
+		clubId = (String) Storage.getInstance().readObject("club_id");
+		room = (String) Storage.getInstance().readObject("room");
+		
+		areaListVersion = (String) Storage.getInstance().readObject("areas_version");
+		lessonListVersion = (String) Storage.getInstance().readObject("lessons_version");
+		
+		areaList = (Vector) Storage.getInstance().readObject("areas");
+		lessonList = (Vector) Storage.getInstance().readObject("lessons");
 	}
 
     @Override
@@ -51,13 +80,12 @@ public class StateMachine extends StateMachineBase {
         UITimer ut = new UITimer(new Runnable() {
             public void run() {
             	setCoordinateLayout();
-            	if (data == null || data.size() == 0)
-            		updateData();
-            	else
-            		refreshUI_withData();
+            	getAreaListVersion();
+            	if (areaId != null && subAreaId != null && clubId != null && room != null)
+            		getLessonListVersion();
             }
         });
-        ut.schedule(800, false, f);
+        ut.schedule(100, false, f);
     }
     
     private void setCoordinateLayout(){
@@ -69,12 +97,135 @@ public class StateMachine extends StateMachineBase {
     	mainform.setLayout(new CoordinateLayout(display_w, display_h - title_h));
     	mainform.setX(0);
     	mainform.setY(0);
+    }    
+    
+    private void getAreaListVersion() {
+        try {
+            ConnectionRequest req = new ConnectionRequest() {
+                protected void readResponse(InputStream input) throws IOException {
+                	try{
+                		String newAreaListVersion = null;
+                		
+                		JSONParser p = new JSONParser();
+                		Hashtable h = p.parse(new InputStreamReader(input));
+                		Vector versionList = (Vector) h.get("root");
+                		for (int i = 0; i < versionList.size(); i++) {
+                			Hashtable entry = (Hashtable) versionList.elementAt(i);
+                			newAreaListVersion = (String) entry.get("version");
+                		}
+                		
+                		if (!newAreaListVersion.equals(areaListVersion)){
+                			areaListVersion = newAreaListVersion;
+                			onAreaListVersionUpdated();
+                		}
+                	}
+                	catch(IOException ex) {
+                		ex.printStackTrace();
+                	}
+                }
+            };
+            req.setUrl("http://timetable.sinaapp.com/areas/version");
+            req.setPost(false);
+            NetworkManager.getInstance().addToQueue(req);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
-    private void updateData() {
+    private void onAreaListVersionUpdated() {
+		getAreaList();
+    }
+    
+    private void getAreaList() {
+        try {
+            ConnectionRequest req = new ConnectionRequest() {
+                protected void readResponse(InputStream input) throws IOException {
+                	try{
+                		JSONParser p = new JSONParser();
+                		Hashtable h = p.parse(new InputStreamReader(input));
+                		areaList = (Vector) h.get("root");
+                		onAreaListUpdated();
+                	}
+                	catch(IOException ex) {
+                		ex.printStackTrace();
+                	}
+                }
+            };
+            req.setUrl("http://timetable.sinaapp.com/areas");
+            req.setPost(false);
+            NetworkManager.getInstance().addToQueue(req);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void onAreaListUpdated() {
+    	Storage.getInstance().writeObject("areas", areaList);
+    	Storage.getInstance().writeObject("areas_version", areaListVersion);
+		if (areaId == null || subAreaId == null || clubId == null || room == null)
+			gotoOptionsForm();
+    }
+    
+    private void gotoOptionsForm() {
+    	Form optionsForm = (Form)createContainer("/theme.res", "GUI 1");
+    	optionsForm.show();
+    }
+    
+    protected void exitGUI1(Form f) {
+    	int areaSelected = findAreaSpinner().getModel().getSelectedIndex();
+    	//if (!newAreaId.equals(areaId) || ...) {
+    		//save to Storage
+    		//Storage.getInstance().writeObject();
+    		getLessonListVersion();
+    	//}	
+    }
+    
+    private void getLessonListVersion() {
+        try {
+            ConnectionRequest req = new ConnectionRequest() {
+                protected void readResponse(InputStream input) throws IOException {
+                	try{
+                		String newVersion = null;
+                		
+                		JSONParser p = new JSONParser();
+                		Hashtable h = p.parse(new InputStreamReader(input));
+                		Vector versionList = (Vector) h.get("root");
+                		for (int i = 0; i < versionList.size(); i++) {
+                			Hashtable entry = (Hashtable) versionList.elementAt(i);
+                			newVersion = (String) entry.get("version");
+                		}
+                		
+                		if (!newVersion.equals(lessonListVersion)){
+                			lessonListVersion = newVersion;
+                			onLessonListVersionUpdated();
+                		}
+                	}
+                	catch(IOException ex) {
+                		ex.printStackTrace();
+                	}
+                }
+            };
+            req.setUrl("http://timetable.sinaapp.com/lessons/version/" + areaId + "_"
+            		+ subAreaId + "_" + clubId + "_" + room);
+            req.setPost(false);
+            NetworkManager.getInstance().addToQueue(req);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void onLessonListVersionUpdated() {
+    	Storage.getInstance().writeObject("lessons_version", lessonListVersion);
+    	getLessonList();
+    }
+    
+    private void getLessonList() {
         InfiniteProgress inf = new InfiniteProgress();
         Dialog progress = inf.showInifiniteBlocking();
-        updateData(progress);
+        getLessonList(progress);
     }
     
     private int getWeekDay(String weekday)
@@ -150,15 +301,15 @@ public class StateMachine extends StateMachineBase {
     	return new Rectangle(x, y, h1, w1);
     }
     
-    private void updateData(final Dialog progress) {
+    private void getLessonList(final Dialog progress) {
         try {
             ConnectionRequest req = new ConnectionRequest() {
                 protected void readResponse(InputStream input) throws IOException {
                 	try{
                 		JSONParser p = new JSONParser();
                 		Hashtable h = p.parse(new InputStreamReader(input));
-                		data = (Vector) h.get("root");
-                		refreshUI_withData();
+                		lessonList = (Vector) h.get("root");
+                		onLessonListUpdated();
                 	}
                 	catch(IOException ex) {
                 		ex.printStackTrace();
@@ -166,7 +317,7 @@ public class StateMachine extends StateMachineBase {
             		progress.dispose();
                 }
             };
-            req.setUrl("http://timetable.sinaapp.com");
+            req.setUrl("http://timetable.sinaapp.com/lessons/" + areaId + "_" + subAreaId + "_" + clubId + "_" + room);
             req.setPost(false);
             NetworkManager.getInstance().addToQueue(req);
         }
@@ -175,9 +326,12 @@ public class StateMachine extends StateMachineBase {
         }
     }
 
-    private void refreshUI_withData() {
-		for (int i = 0; i < data.size(); i++) {
-			Hashtable entry = (Hashtable) data.elementAt(i);
+    private void onLessonListUpdated() {
+    	
+    	Storage.getInstance().writeObject("lessons", lessonList);
+    	
+		for (int i = 0; i < lessonList.size(); i++) {
+			Hashtable entry = (Hashtable) lessonList.elementAt(i);
 			String weekday = (String) entry.get("weekday");
 			String weekday_chinese = (String) entry.get("weekday_chinese");
 			final String start_time = (String) entry.get("start_time");

@@ -1,8 +1,11 @@
 # Django settings for timetable project.
 
 from os import environ
+import os.path
 
-DEBUG = True
+DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
