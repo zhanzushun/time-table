@@ -7,10 +7,14 @@ import re
 import json
 
 def main():
-    (areas, results) = mainImpl(False)
+    (areas, results) = mainImpl(True)
     out = r'c:\temp\areas.txt'
     outFile = open(out, 'w')
     outFile.write (json.dumps(areas, indent = 4, ensure_ascii = False))
+
+    out = r'c:\temp\results.txt'
+    outFile = open(out, 'w')
+    outFile.write (json.dumps(results, indent = 4, ensure_ascii = False))
     
 def mainImpl(getDetail):
     f1=open(r'c:\temp\crawler.log', 'w+')
@@ -18,17 +22,17 @@ def mainImpl(getDetail):
     results = []
     areas_result = []
     
-    areas = {'上海市' : 121,
-        '北京市' : 122,
-        '天津市' : 141,
-        '辽宁省' : 142,
-        '浙江省' : 143,
-        '河南省' : 144,
-        '湖北省' : 145,
-        '江苏省' : 146,
-        '吉林省' : 147,
-        '山东省' : 148,
-        '广东省' : 149,
+    areas = {'上海市' : '121',
+        '北京市' : '122',
+        '天津市' : '141',
+        '辽宁省' : '142',
+        '浙江省' : '143',
+        '河南省' : '144',
+        '湖北省' : '145',
+        '江苏省' : '146',
+        '吉林省' : '147',
+        '山东省' : '148',
+        '广东省' : '149',
         }
     
     for area in areas:
@@ -193,7 +197,7 @@ def parse(fileContent, resultList, f1):
                     continue
                 
                 lesson = {}
-                lesson['weekday'] = weekday
+                lesson['weekday'] = str(weekday)
                 lesson['time'] = time
                 lesson['lesson'] = lessonAndDuration[0]
                 lesson['duration'] = lessonAndDuration[1]

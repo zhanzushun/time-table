@@ -111,6 +111,30 @@ public abstract class StateMachineBase extends UIBuilder {
         this(res, null, loadTheme);
     }
 
+    public com.codename1.ui.Container findContainer4(Component root) {
+        return (com.codename1.ui.Container)findByName("Container4", root);
+    }
+
+    public com.codename1.ui.Container findContainer4() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container4", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("Container4", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Container findContainer3(Component root) {
+        return (com.codename1.ui.Container)findByName("Container3", root);
+    }
+
+    public com.codename1.ui.Container findContainer3() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container3", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("Container3", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.spinner.GenericSpinner findRoomSpinner(Component root) {
         return (com.codename1.ui.spinner.GenericSpinner)findByName("RoomSpinner", root);
     }
@@ -119,6 +143,30 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.spinner.GenericSpinner cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("RoomSpinner", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("RoomSpinner", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findSubAreaLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("SubAreaLabel", root);
+    }
+
+    public com.codename1.ui.Label findSubAreaLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Container findContainer2(Component root) {
+        return (com.codename1.ui.Container)findByName("Container2", root);
+    }
+
+    public com.codename1.ui.Container findContainer2() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container2", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("Container2", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -135,14 +183,62 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Label findLabel1(Component root) {
-        return (com.codename1.ui.Label)findByName("Label1", root);
+    public com.codename1.ui.Container findContainer5(Component root) {
+        return (com.codename1.ui.Container)findByName("Container5", root);
     }
 
-    public com.codename1.ui.Label findLabel1() {
-        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("Label1", Display.getInstance().getCurrent());
+    public com.codename1.ui.Container findContainer5() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container5", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Label)findByName("Label1", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.Container)findByName("Container5", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.spinner.GenericSpinner findClubSpinner(Component root) {
+        return (com.codename1.ui.spinner.GenericSpinner)findByName("ClubSpinner", root);
+    }
+
+    public com.codename1.ui.spinner.GenericSpinner findClubSpinner() {
+        com.codename1.ui.spinner.GenericSpinner cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("ClubSpinner", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("ClubSpinner", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findAreaLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("AreaLabel", root);
+    }
+
+    public com.codename1.ui.Label findAreaLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("AreaLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("AreaLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findClubLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("ClubLabel", root);
+    }
+
+    public com.codename1.ui.Label findClubLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("ClubLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("ClubLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findRoomLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("RoomLabel", root);
+    }
+
+    public com.codename1.ui.Label findRoomLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("RoomLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("RoomLabel", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -159,6 +255,18 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.spinner.GenericSpinner findAreaSpinner(Component root) {
+        return (com.codename1.ui.spinner.GenericSpinner)findByName("AreaSpinner", root);
+    }
+
+    public com.codename1.ui.spinner.GenericSpinner findAreaSpinner() {
+        com.codename1.ui.spinner.GenericSpinner cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("AreaSpinner", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("AreaSpinner", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Container findContainer(Component root) {
         return (com.codename1.ui.Container)findByName("Container", root);
     }
@@ -171,40 +279,40 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.spinner.GenericSpinner findSiteSpinner(Component root) {
-        return (com.codename1.ui.spinner.GenericSpinner)findByName("SiteSpinner", root);
+    public com.codename1.ui.spinner.GenericSpinner findSubAreaSpinner(Component root) {
+        return (com.codename1.ui.spinner.GenericSpinner)findByName("SubAreaSpinner", root);
     }
 
-    public com.codename1.ui.spinner.GenericSpinner findSiteSpinner() {
-        com.codename1.ui.spinner.GenericSpinner cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("SiteSpinner", Display.getInstance().getCurrent());
+    public com.codename1.ui.spinner.GenericSpinner findSubAreaSpinner() {
+        com.codename1.ui.spinner.GenericSpinner cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("SubAreaSpinner", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("SiteSpinner", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.spinner.GenericSpinner)findByName("SubAreaSpinner", aboutToShowThisContainer);
         }
         return cmp;
     }
 
-    public static final int COMMAND_MainOptions = 1;
-    public static final int COMMAND_GUI1Back = 5;
+    public static final int COMMAND_GUI1 = 5;
+    public static final int COMMAND_Main = 1;
 
-    protected boolean onMainOptions() {
+    protected boolean onGUI1() {
         return false;
     }
 
-    protected boolean onGUI1Back() {
+    protected boolean onMain() {
         return false;
     }
 
     protected void processCommand(ActionEvent ev, Command cmd) {
         switch(cmd.getId()) {
-            case COMMAND_MainOptions:
-                if(onMainOptions()) {
+            case COMMAND_GUI1:
+                if(onGUI1()) {
                     ev.consume();
                     return;
                 }
                 break;
 
-            case COMMAND_GUI1Back:
-                if(onGUI1Back()) {
+            case COMMAND_Main:
+                if(onMain()) {
                     ev.consume();
                     return;
                 }
@@ -217,143 +325,143 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void exitForm(Form f) {
-        if("GUI 1".equals(f.getName())) {
-            exitGUI1(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("Main".equals(f.getName())) {
             exitMain(f);
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(f.getName())) {
+            exitGUI1(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void exitGUI1(Form f) {
     }
 
 
     protected void exitMain(Form f) {
     }
 
+
+    protected void exitGUI1(Form f) {
+    }
+
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
-        if("GUI 1".equals(f.getName())) {
-            beforeGUI1(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("Main".equals(f.getName())) {
             beforeMain(f);
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(f.getName())) {
+            beforeGUI1(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void beforeGUI1(Form f) {
     }
 
 
     protected void beforeMain(Form f) {
     }
 
+
+    protected void beforeGUI1(Form f) {
+    }
+
     protected void beforeShowContainer(Container c) {
     aboutToShowThisContainer = c;
-        if("GUI 1".equals(c.getName())) {
-            beforeContainerGUI1(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("Main".equals(c.getName())) {
             beforeContainerMain(c);
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(c.getName())) {
+            beforeContainerGUI1(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void beforeContainerGUI1(Container c) {
     }
 
 
     protected void beforeContainerMain(Container c) {
     }
 
-    protected void postShow(Form f) {
-        if("GUI 1".equals(f.getName())) {
-            postGUI1(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
 
+    protected void beforeContainerGUI1(Container c) {
+    }
+
+    protected void postShow(Form f) {
         if("Main".equals(f.getName())) {
             postMain(f);
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(f.getName())) {
+            postGUI1(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void postGUI1(Form f) {
     }
 
 
     protected void postMain(Form f) {
     }
 
-    protected void postShowContainer(Container c) {
-        if("GUI 1".equals(c.getName())) {
-            postContainerGUI1(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
 
+    protected void postGUI1(Form f) {
+    }
+
+    protected void postShowContainer(Container c) {
         if("Main".equals(c.getName())) {
             postContainerMain(c);
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(c.getName())) {
+            postContainerGUI1(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void postContainerGUI1(Container c) {
     }
 
 
     protected void postContainerMain(Container c) {
     }
 
-    protected void onCreateRoot(String rootName) {
-        if("GUI 1".equals(rootName)) {
-            onCreateGUI1();
-            aboutToShowThisContainer = null;
-            return;
-        }
 
+    protected void postContainerGUI1(Container c) {
+    }
+
+    protected void onCreateRoot(String rootName) {
         if("Main".equals(rootName)) {
             onCreateMain();
             aboutToShowThisContainer = null;
             return;
         }
 
-    }
+        if("GUI 1".equals(rootName)) {
+            onCreateGUI1();
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-
-    protected void onCreateGUI1() {
     }
 
 
     protected void onCreateMain() {
+    }
+
+
+    protected void onCreateGUI1() {
     }
 
 }

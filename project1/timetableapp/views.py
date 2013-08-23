@@ -25,7 +25,7 @@ def index(request):
 def areasVersion(request):
     l = []
     d = {}
-    d['version'] = 1
+    d['version'] = '2'
     l.append(d)
     return HttpResponse(json.dumps(l), content_type='application/json')
     
@@ -37,7 +37,7 @@ def areas(request):
 def lessonsVersion(request, areaId, subAreaId, clubId, room):
     l = []
     d = {}
-    d['version'] = 1
+    d['version'] = '2'
     l.append(d)
     return HttpResponse(json.dumps(l), content_type='application/json')
         

@@ -1,7 +1,7 @@
-[
+﻿[
             {
                 "lesson_chinese": "肚皮舞(A)", 
-                "weekday": 0, 
+                "weekday": '0', 
                 "time": "12:15", 
                 "duration": "45MIN", 
                 "lesson": "BELLYDANCEA*", 
@@ -9,7 +9,7 @@
             }, 
             {
                 "lesson_chinese": "尊巴(A)", 
-                "weekday": 1, 
+                "weekday": '1', 
                 "time": "12:15", 
                 "duration": "45MIN", 
                 "lesson": "NIKEZUMBAA*", 
@@ -17,7 +17,7 @@
             }, 
             {
                 "lesson_chinese": "初级踏板(A)", 
-                "weekday": 2, 
+                "weekday": '2', 
                 "time": "12:15", 
                 "duration": "45MIN", 
                 "lesson": "STEPA*", 
@@ -25,7 +25,7 @@
             }, 
             {
                 "lesson_chinese": "低冲击有氧操(A)", 
-                "weekday": 3, 
+                "weekday": '3', 
                 "time": "12:15", 
                 "duration": "45MIN", 
                 "lesson": "LOWA*", 
@@ -33,7 +33,7 @@
             }, 
             {
                 "lesson_chinese": "瑜伽(A)", 
-                "weekday": 4, 
+                "weekday": '4', 
                 "time": "12:15", 
                 "duration": "55MIN", 
                 "lesson": "YOGAA*", 
@@ -41,7 +41,7 @@
             }, 
             {
                 "lesson_chinese": "恰恰(国标)(A)", 
-                "weekday": 5, 
+                "weekday": '5', 
                 "time": "12:15", 
                 "duration": "45MIN", 
                 "lesson": "CHACHAA*", 
@@ -49,7 +49,7 @@
             }, 
             {
                 "lesson_chinese": "身心平衡(A)", 
-                "weekday": 5, 
+                "weekday": '5', 
                 "time": "13:30", 
                 "duration": "55MIN", 
                 "lesson": "BODYBALANCEA*", 
@@ -57,7 +57,7 @@
             }, 
             {
                 "lesson_chinese": "恰恰(国标)(A)", 
-                "weekday": 1, 
+                "weekday": '1', 
                 "time": "14:30", 
                 "duration": "45MIN", 
                 "lesson": "CHACHAA*", 
@@ -65,7 +65,7 @@
             }, 
             {
                 "lesson_chinese": "民族舞(A)", 
-                "weekday": 2, 
+                "weekday": '2', 
                 "time": "14:30", 
                 "duration": "45MIN", 
                 "lesson": "FOLKDANCEA*", 

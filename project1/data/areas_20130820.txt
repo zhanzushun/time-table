@@ -1,6 +1,6 @@
 [
     {
-        "area_id": 148, 
+        "area_id": "148", 
         "subareas": [
             {
                 "subarea": "青岛市", 
@@ -24,7 +24,7 @@
         "area": "山东省"
     }, 
     {
-        "area_id": 146, 
+        "area_id": "146", 
         "subareas": [
             {
                 "subarea": "苏州市", 
@@ -45,7 +45,7 @@
         "area": "江苏省"
     }, 
     {
-        "area_id": 142, 
+        "area_id": "142", 
         "subareas": [
             {
                 "subarea": "大连市", 
@@ -75,7 +75,7 @@
         "area": "辽宁省"
     }, 
     {
-        "area_id": 147, 
+        "area_id": "147", 
         "subareas": [
             {
                 "subarea": "吉林市", 
@@ -86,7 +86,7 @@
         "area": "吉林省"
     }, 
     {
-        "area_id": 122, 
+        "area_id": "122", 
         "subareas": [
             {
                 "subarea": "西城区", 
@@ -146,7 +146,7 @@
         "area": "北京市"
     }, 
     {
-        "area_id": 149, 
+        "area_id": "149", 
         "subareas": [
             {
                 "subarea": "珠海市", 
@@ -171,7 +171,7 @@
         "area": "广东省"
     }, 
     {
-        "area_id": 144, 
+        "area_id": "144", 
         "subareas": [
             {
                 "subarea": "郑州市", 
@@ -182,7 +182,7 @@
         "area": "河南省"
     }, 
     {
-        "area_id": 141, 
+        "area_id": "141", 
         "subareas": [
             {
                 "subarea": "河西区", 
@@ -198,7 +198,7 @@
         "area": "天津市"
     }, 
     {
-        "area_id": 143, 
+        "area_id": "143", 
         "subareas": [
             {
                 "subarea": "杭州市", 
@@ -219,7 +219,7 @@
         "area": "浙江省"
     }, 
     {
-        "area_id": 145, 
+        "area_id": "145", 
         "subareas": [
             {
                 "subarea": "武汉市", 
@@ -235,7 +235,7 @@
         "area": "湖北省"
     }, 
     {
-        "area_id": 121, 
+        "area_id": "121", 
         "subareas": [
             {
                 "subarea": "杨浦区", 
