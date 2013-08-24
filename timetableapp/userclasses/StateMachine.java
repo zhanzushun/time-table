@@ -85,20 +85,25 @@ public class StateMachine extends StateMachineBase {
             public void run() {
             	try {
             		setCoordinateLayout();
-            		getAreaListVersion();
-            		if (lessonList != null && lessonList.size() > 0)
-            			refreshUI();
-            		if (m_club == null)
-            			mainform.setTitle("一兆韦德课程表");
-            		else
-            			mainform.setTitle(m_club);
+            		if (m_optionsDirty) {
+            			getLessonList();
+            			m_optionsDirty = false;
+            			return;
+            		}
+            		try {
+            			getAreaListVersion();
+            		}
+            		catch (Exception ex) {
+            			if (lessonList != null && lessonList.size() > 0)
+            				refreshUI();
+            		}
         		}
                 catch (Exception ex) {
                     ex.printStackTrace();
                 }            	
             }
         });
-        ut.schedule(100, false, f);
+        ut.schedule(10, false, f);
     }
     
     private void setCoordinateLayout(){
@@ -218,7 +223,7 @@ public class StateMachine extends StateMachineBase {
             	}
             }
         });
-        ut.schedule(100, false, f);    	
+        ut.schedule(10, false, f);
     }
     
     @Override    
@@ -229,8 +234,8 @@ public class StateMachine extends StateMachineBase {
     			Storage.getInstance().writeObject("subarea", m_subArea);
     			Storage.getInstance().writeObject("club", m_club);
     			Storage.getInstance().writeObject("room", m_room);
-    			if (m_area != null && m_subArea != null && m_club != null && m_room != null)
-    				getLessonListVersion();
+//    			if (m_area != null && m_subArea != null && m_club != null && m_room != null)
+//    				getLessonListVersion();
     		}
     		catch (Exception ex) {
     			ex.printStackTrace();
@@ -266,7 +271,7 @@ public class StateMachine extends StateMachineBase {
                 }
             };
             req.setUrl("http://timetable.sinaapp.com/lessons/version/" + areaId() + "_"
-            		+ subAreaId() + "_" + clubId() + "_" + m_room);
+            		+ subAreaId() + "_" + clubId() + "_" + roomId());
             req.setPost(false);
             NetworkManager.getInstance().addToQueue(req);
         }
@@ -276,8 +281,10 @@ public class StateMachine extends StateMachineBase {
     }
     
     private void checkLessonList() {
-    	if (lessonList == null)
+    	if (lessonList == null || m_optionsDirty) {
     		getLessonList();
+    		m_optionsDirty = false;
+    	}
     }
     
     private void onLessonListVersionUpdated() {
@@ -353,16 +360,16 @@ public class StateMachine extends StateMachineBase {
                 		JSONParser p = new JSONParser();
                 		Hashtable h = p.parse(new InputStreamReader(input));
                 		lessonList = (Vector) h.get("root");
+                		progress.dispose();
                 		onLessonListUpdated();
                 	}
                 	catch(IOException ex) {
                 		ex.printStackTrace();
                 	}
-            		progress.dispose();
                 }
             };
             req.setUrl("http://timetable.sinaapp.com/lessons/" + areaId() + "_" + subAreaId() + "_" + 
-            		clubId() + "_" + m_room);
+            		clubId() + "_" + roomId());
             req.setPost(false);
             NetworkManager.getInstance().addToQueue(req);
         }
@@ -407,6 +414,10 @@ public class StateMachine extends StateMachineBase {
 			mainform.addComponent(l);
 		}
 		mainform.getContentPane().repaint();
+		if (m_club == null)
+			mainform.setTitle("一兆韦德课程表");
+		else
+			mainform.setTitle(m_club);
     }
 
     private boolean initListModelAreaSpinner(GenericSpinner cmp) {
@@ -426,6 +437,8 @@ public class StateMachine extends StateMachineBase {
     	model.addSelectionListener(new SelectionListener() {
     		public void selectionChanged(int oldSelected, int newSelected) {
     			try {
+    				if (findAreaSpinner() == null || findAreaSpinner().getModel() == null)
+    					return;
     				String newArea = (String) findAreaSpinner().getModel().
     						getItemAt(findAreaSpinner().getModel().getSelectedIndex());
     				if (newArea == null || !newArea.equals(m_area)) {
@@ -465,6 +478,9 @@ public class StateMachine extends StateMachineBase {
     	model.addSelectionListener(new SelectionListener() {
 			public void selectionChanged(int oldSelected, int newSelected) {
 				try {
+    				if (findSubAreaSpinner() == null || findSubAreaSpinner().getModel() == null)
+    					return;
+
 					String newSubArea = (String) findSubAreaSpinner().getModel().
 							getItemAt(findSubAreaSpinner().getModel().getSelectedIndex());
 					if (newSubArea == null || !newSubArea.equals(m_subArea)) {
@@ -504,6 +520,8 @@ public class StateMachine extends StateMachineBase {
     	model.addSelectionListener(new SelectionListener() {
 			public void selectionChanged(int oldSelected, int newSelected) {
 				try {
+    				if (findClubSpinner() == null || findClubSpinner().getModel() == null)
+    					return;
 					String newClub = (String) findClubSpinner().getModel().
 							getItemAt(findClubSpinner().getModel().getSelectedIndex());
 					if (newClub == null || !newClub.equals(m_club)) {
@@ -547,9 +565,11 @@ public class StateMachine extends StateMachineBase {
     	model.addSelectionListener(new SelectionListener() {
 			public void selectionChanged(int oldSelected, int newSelected) {
 				try {
+    				if (findRoomSpinner() == null || findRoomSpinner().getModel() == null)
+    					return;
 					String newRoom = (String) findRoomSpinner().getModel().
 							getItemAt(findRoomSpinner().getModel().getSelectedIndex());
-					if (!newRoom.equals(m_club)) {
+					if (!newRoom.equals(m_room)) {
 						m_room = newRoom;
 						m_optionsDirty = true;
 					}
@@ -616,5 +636,15 @@ public class StateMachine extends StateMachineBase {
     	if (getClub() == null)
     		return null;
     	return (String) getClub().get("club_id");
-    }    
+    }
+    
+    private String roomId() {
+    	if (m_room.equals("瑜伽教室"))
+    		return "1";
+    	if (m_room.equals("有氧教室"))
+    		return "2";
+    	if (m_room.equals("单车教室"))
+    		return "3";
+    	return "0";
+    }     
 }
