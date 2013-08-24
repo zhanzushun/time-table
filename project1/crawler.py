@@ -100,7 +100,10 @@ def mainImpl(getDetail):
                     result['lessons'] = []
                     
                     url = 'http://www.1012china.com/CustomDetail.aspx?typeid=1&id={0}'.format(clubId)
-                    clubContent = urllib2.urlopen(url).read()
+
+                    postData = urllib.urlencode({'btnSite' : room})
+                    req = urllib2.Request(url = url, data = postData)
+                    clubContent = urllib2.urlopen(req).read()
                     parse(clubContent, result['lessons'], f1)
                     print "============================"
                     print json.dumps(result, indent = 4)

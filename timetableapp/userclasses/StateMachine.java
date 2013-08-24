@@ -39,7 +39,7 @@ public class StateMachine extends StateMachineBase {
 	private String m_area;
 	private String m_subArea;
 	private String m_club;
-	private String m_room;
+	private String m_roomIndex;
 	private boolean m_optionsDirty;
 	
 	private String areaListVersion;
@@ -64,7 +64,7 @@ public class StateMachine extends StateMachineBase {
 			m_area = (String) Storage.getInstance().readObject("area");
 			m_subArea = (String) Storage.getInstance().readObject("subarea");
 			m_club = (String) Storage.getInstance().readObject("club");
-			m_room = (String) Storage.getInstance().readObject("room");
+			m_roomIndex = (String) Storage.getInstance().readObject("room_index");
 			m_optionsDirty = false;
 
 			areaListVersion = (String) Storage.getInstance().readObject("areas_version");
@@ -111,7 +111,7 @@ public class StateMachine extends StateMachineBase {
     	image_h = l.getIcon().getHeight();
     	int display_w = Display.getInstance().getDisplayWidth();
     	int display_h = Display.getInstance().getDisplayHeight();
-    	int title_h = mainform.getTitleArea().getPreferredH();
+    	int title_h = mainform.getTitleArea().getHeight();
     	mainform.setLayout(new CoordinateLayout(display_w, display_h - title_h));
     	mainform.setX(0);
     	mainform.setY(0);
@@ -195,7 +195,7 @@ public class StateMachine extends StateMachineBase {
     }
     
     private void checkOptionsAndLessonsVersion() {
-		if (m_area == null || m_subArea == null || m_club == null || m_room == null)
+		if (m_area == null || m_subArea == null || m_club == null || m_roomIndex == null)
 			gotoOptionsForm();
 		else
 			getLessonListVersion();
@@ -233,8 +233,8 @@ public class StateMachine extends StateMachineBase {
     			Storage.getInstance().writeObject("area", m_area);
     			Storage.getInstance().writeObject("subarea", m_subArea);
     			Storage.getInstance().writeObject("club", m_club);
-    			Storage.getInstance().writeObject("room", m_room);
-//    			if (m_area != null && m_subArea != null && m_club != null && m_room != null)
+    			Storage.getInstance().writeObject("room_index", m_roomIndex);
+//    			if (m_area != null && m_subArea != null && m_club != null && m_roomIndex != null)
 //    				getLessonListVersion();
     		}
     		catch (Exception ex) {
@@ -270,6 +270,9 @@ public class StateMachine extends StateMachineBase {
                 	}
                 }
             };
+            if (areaId() == null || subAreaId() == null || clubId() == null || roomId() == null) {
+            	return;
+            }
             req.setUrl("http://timetable.sinaapp.com/lessons/version/" + areaId() + "_"
             		+ subAreaId() + "_" + clubId() + "_" + roomId());
             req.setPost(false);
@@ -285,6 +288,8 @@ public class StateMachine extends StateMachineBase {
     		getLessonList();
     		m_optionsDirty = false;
     	}
+    	else
+    		refreshUI();
     }
     
     private void onLessonListVersionUpdated() {
@@ -368,6 +373,10 @@ public class StateMachine extends StateMachineBase {
                 	}
                 }
             };
+            if (areaId() == null || subAreaId() == null || clubId() == null || roomId() == null) {
+            	progress.dispose();
+            	return;
+            }
             req.setUrl("http://timetable.sinaapp.com/lessons/" + areaId() + "_" + subAreaId() + "_" + 
             		clubId() + "_" + roomId());
             req.setPost(false);
@@ -384,6 +393,10 @@ public class StateMachine extends StateMachineBase {
     }
     
     private void refreshUI(){
+		if (m_club != null)
+			mainform.setTitle(m_club);
+		if (lessonList == null)
+			return;
 		for (int i = 0; i < lessonList.size(); i++) {
 			Hashtable entry = (Hashtable) lessonList.elementAt(i);
 			
@@ -414,10 +427,6 @@ public class StateMachine extends StateMachineBase {
 			mainform.addComponent(l);
 		}
 		mainform.getContentPane().repaint();
-		if (m_club == null)
-			mainform.setTitle("一兆韦德课程表");
-		else
-			mainform.setTitle(m_club);
     }
 
     private boolean initListModelAreaSpinner(GenericSpinner cmp) {
@@ -541,36 +550,24 @@ public class StateMachine extends StateMachineBase {
     
     private boolean initListModelRoomSpinner(GenericSpinner cmp) {
     	int selected = -1;
-    	Vector strings = new Vector();
-    	if (getSubArea() == null)
-    		return true;
-    	Vector clubList = (Vector) getSubArea().get("clubs");
-    	
-    	for (int i = 0; i< 3; i++){
-    		String str = null;
-    		if (i == 0)
-    			str = "瑜伽教室";
-    		else if (i == 1)
-    			str = "有氧教室";
-    		else if (i == 2)
-    			str = "单车教室";
-    		strings.add(str);
-    		if (str.equals(m_room))
-    			selected = i;
+    	try {
+    		if (m_roomIndex != null)
+    			selected = Integer.parseInt(m_roomIndex);
     	}
-    	ListModel model = new DefaultListModel(strings);
+    	catch (Exception ex) {
+    	}
     	if (selected == -1) {
     		selected = 0;
     	}
+    	ListModel model = cmp.getModel();
     	model.addSelectionListener(new SelectionListener() {
 			public void selectionChanged(int oldSelected, int newSelected) {
 				try {
     				if (findRoomSpinner() == null || findRoomSpinner().getModel() == null)
     					return;
-					String newRoom = (String) findRoomSpinner().getModel().
-							getItemAt(findRoomSpinner().getModel().getSelectedIndex());
-					if (!newRoom.equals(m_room)) {
-						m_room = newRoom;
+					String newRoomIndex = String.valueOf(findRoomSpinner().getModel().getSelectedIndex());
+					if (!newRoomIndex.equals(m_roomIndex)) {
+						m_roomIndex = newRoomIndex;
 						m_optionsDirty = true;
 					}
 				}
@@ -579,7 +576,6 @@ public class StateMachine extends StateMachineBase {
 				}
 			}
     	});
-    	cmp.setModel(model);
     	model.setSelectedIndex(selected);
         return true;
     } 
@@ -639,11 +635,11 @@ public class StateMachine extends StateMachineBase {
     }
     
     private String roomId() {
-    	if (m_room.equals("瑜伽教室"))
+    	if (m_roomIndex.equals("0"))
     		return "1";
-    	if (m_room.equals("有氧教室"))
+    	if (m_roomIndex.equals("1"))
     		return "2";
-    	if (m_room.equals("单车教室"))
+    	if (m_roomIndex.equals("2"))
     		return "3";
     	return "0";
     }     
