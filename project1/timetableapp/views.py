@@ -60,26 +60,29 @@ def getRoom(roomId):
         room = ''
     return room   
 
-def findClub(clubId, roomId):
-    date = getMaxDateInFileName('json')
-    with open(os.path.join(DATA_DIR, 'json_{0}.txt'.format(date))) as lessonsFile:
+def findClubRoom(clubId, roomId):
+    prefix = 'lessons'
+    date = getMaxDateInFileName(prefix)
+    with open(os.path.join(DATA_DIR, '{0}_{1}.txt'.format(prefix, date))) as lessonsFile:
         clubList = json.loads(lessonsFile.read().decode('utf8'))
         for club in clubList:
-              if club.get('club_id') == clubId and club.get('room') == getRoom(roomId):
-                  return club
+              if club.get('club_id') == clubId:
+                  for room in club.get('rooms'):
+                      if room.get('room') == getRoom(roomId):
+                          return room
     return {}
 
 def lessonsVersion(request, areaId, subAreaId, clubId, roomId):
     l = []
     d = {}
-    ver = findClub(clubId, roomId).get('version')
+    ver = findClubRoom(clubId, roomId).get('version')
     if ver:
         d['version'] = ver
     else:
-        d['version'] = '10' 
+        d['version'] = '20130826' 
     l.append(d)
     return HttpResponse(json.dumps(l), content_type='application/json')
         
 def lessons(request, areaId, subAreaId, clubId, roomId):
-    l = findClub(clubId, roomId).get('lessons')
+    l = findClubRoom(clubId, roomId).get('lessons')
     return HttpResponse(json.dumps(l), content_type='application/json')
