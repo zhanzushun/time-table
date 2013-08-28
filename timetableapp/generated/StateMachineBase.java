@@ -33,8 +33,12 @@ public abstract class StateMachineBase extends UIBuilder {
     public Container startApp(Resources res, String resPath, boolean loadTheme) {
         initVars();
         UIBuilder.registerCustomComponent("GenericSpinner", com.codename1.ui.spinner.GenericSpinner.class);
+        UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("Ads", com.codename1.components.Ads.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
+        UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
+        UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
         if(loadTheme) {
             if(res == null) {
@@ -71,8 +75,12 @@ public abstract class StateMachineBase extends UIBuilder {
     public Container createWidget(Resources res, String resPath, boolean loadTheme) {
         initVars();
         UIBuilder.registerCustomComponent("GenericSpinner", com.codename1.ui.spinner.GenericSpinner.class);
+        UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("Ads", com.codename1.components.Ads.class);
         UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
+        UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
+        UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
         if(loadTheme) {
             if(res == null) {
@@ -147,18 +155,6 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Label findSubAreaLabel(Component root) {
-        return (com.codename1.ui.Label)findByName("SubAreaLabel", root);
-    }
-
-    public com.codename1.ui.Label findSubAreaLabel() {
-        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.ui.Container findContainer2(Component root) {
         return (com.codename1.ui.Container)findByName("Container2", root);
     }
@@ -167,6 +163,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container2", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Container)findByName("Container2", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findSubAreaLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("SubAreaLabel", root);
+    }
+
+    public com.codename1.ui.Label findSubAreaLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("SubAreaLabel", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -183,6 +191,18 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.Container findMainContainer(Component root) {
+        return (com.codename1.ui.Container)findByName("MainContainer", root);
+    }
+
+    public com.codename1.ui.Container findMainContainer() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("MainContainer", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("MainContainer", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Container findContainer5(Component root) {
         return (com.codename1.ui.Container)findByName("Container5", root);
     }
@@ -191,6 +211,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container5", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Container)findByName("Container5", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.components.Ads findAds(Component root) {
+        return (com.codename1.components.Ads)findByName("Ads", root);
+    }
+
+    public com.codename1.components.Ads findAds() {
+        com.codename1.components.Ads cmp = (com.codename1.components.Ads)findByName("Ads", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.components.Ads)findByName("Ads", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -207,6 +239,30 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.TextArea findDialogLabel(Component root) {
+        return (com.codename1.ui.TextArea)findByName("DialogLabel", root);
+    }
+
+    public com.codename1.ui.TextArea findDialogLabel() {
+        com.codename1.ui.TextArea cmp = (com.codename1.ui.TextArea)findByName("DialogLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.TextArea)findByName("DialogLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findButton(Component root) {
+        return (com.codename1.ui.Button)findByName("Button", root);
+    }
+
+    public com.codename1.ui.Button findButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("Button", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("Button", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Label findAreaLabel(Component root) {
         return (com.codename1.ui.Label)findByName("AreaLabel", root);
     }
@@ -215,6 +271,30 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("AreaLabel", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Label)findByName("AreaLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findLabel1(Component root) {
+        return (com.codename1.ui.Label)findByName("Label1", root);
+    }
+
+    public com.codename1.ui.Label findLabel1() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("Label1", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("Label1", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findLabel2(Component root) {
+        return (com.codename1.ui.Label)findByName("Label2", root);
+    }
+
+    public com.codename1.ui.Label findLabel2() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("Label2", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("Label2", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -325,6 +405,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void exitForm(Form f) {
+        if("GUI 2".equals(f.getName())) {
+            exitGUI2(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             exitMain(f);
             aboutToShowThisContainer = null;
@@ -340,6 +426,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void exitGUI2(Form f) {
+    }
+
+
     protected void exitMain(Form f) {
     }
 
@@ -349,6 +439,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
+        if("GUI 2".equals(f.getName())) {
+            beforeGUI2(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             beforeMain(f);
             aboutToShowThisContainer = null;
@@ -364,6 +460,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeGUI2(Form f) {
+    }
+
+
     protected void beforeMain(Form f) {
     }
 
@@ -373,6 +473,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShowContainer(Container c) {
     aboutToShowThisContainer = c;
+        if("GUI 2".equals(c.getName())) {
+            beforeContainerGUI2(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(c.getName())) {
             beforeContainerMain(c);
             aboutToShowThisContainer = null;
@@ -388,6 +494,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeContainerGUI2(Container c) {
+    }
+
+
     protected void beforeContainerMain(Container c) {
     }
 
@@ -396,6 +506,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShow(Form f) {
+        if("GUI 2".equals(f.getName())) {
+            postGUI2(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             postMain(f);
             aboutToShowThisContainer = null;
@@ -411,6 +527,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postGUI2(Form f) {
+    }
+
+
     protected void postMain(Form f) {
     }
 
@@ -419,6 +539,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShowContainer(Container c) {
+        if("GUI 2".equals(c.getName())) {
+            postContainerGUI2(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(c.getName())) {
             postContainerMain(c);
             aboutToShowThisContainer = null;
@@ -434,6 +560,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postContainerGUI2(Container c) {
+    }
+
+
     protected void postContainerMain(Container c) {
     }
 
@@ -442,6 +572,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void onCreateRoot(String rootName) {
+        if("GUI 2".equals(rootName)) {
+            onCreateGUI2();
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(rootName)) {
             onCreateMain();
             aboutToShowThisContainer = null;
@@ -457,11 +593,41 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void onCreateGUI2() {
+    }
+
+
     protected void onCreateMain() {
     }
 
 
     protected void onCreateGUI1() {
     }
+
+    protected void handleComponentAction(Component c, ActionEvent event) {
+        Container rootContainerAncestor = getRootAncestor(c);
+        if(rootContainerAncestor == null) return;
+        String rootContainerName = rootContainerAncestor.getName();
+        if(c.getParent().getLeadParent() != null) {
+            c = c.getParent().getLeadParent();
+        }
+        if(rootContainerName == null) return;
+        if(rootContainerName.equals("GUI 2")) {
+            if("DialogLabel".equals(c.getName())) {
+                onGUI2_DialogLabelAction(c, event);
+                return;
+            }
+            if("Button".equals(c.getName())) {
+                onGUI2_ButtonAction(c, event);
+                return;
+            }
+        }
+    }
+
+      protected void onGUI2_DialogLabelAction(Component c, ActionEvent event) {
+      }
+
+      protected void onGUI2_ButtonAction(Component c, ActionEvent event) {
+      }
 
 }
