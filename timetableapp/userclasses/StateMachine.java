@@ -32,10 +32,10 @@ import com.codename1.ui.Dialog;
  *
  * @author Your name here
  */
+@SuppressWarnings("rawtypes")
 public class StateMachine extends StateMachineBase {
 	private int image_h;
 	private Form mainForm;
-	private Resources m_res;
 
 	private String m_area;
 	private String m_subArea;
@@ -43,7 +43,7 @@ public class StateMachine extends StateMachineBase {
 	private String m_roomIndex;
 	private boolean m_optionsDirty;
 
-	private String areaListVersion;
+	//private String areaListVersion;
 	private String lessonListVersion;
 
 	private Vector areaList;
@@ -61,19 +61,18 @@ public class StateMachine extends StateMachineBase {
 	 */
 	protected void initVars(Resources res){
 		try{
-			m_res = res;
 			m_optionsDirty = false;
 			
 			m_area = (String) Storage.getInstance().readObject("area");
 			m_subArea = (String) Storage.getInstance().readObject("subarea");
 			m_club = (String) Storage.getInstance().readObject("club");
 			m_roomIndex = (String) Storage.getInstance().readObject("room_index");
-			areaListVersion = (String) Storage.getInstance().readObject("areas_version");
+			//areaListVersion = (String) Storage.getInstance().readObject("areas_version");
 			lessonListVersion = (String) Storage.getInstance().readObject("lessons_version");
 			areaList = (Vector) Storage.getInstance().readObject("areas");
 			lessonList = (Vector) Storage.getInstance().readObject("lessons");
 			
-			if (areaList == null || areaList.size() == 0){
+			if (areaList == null){
 				JSONParser p = new JSONParser();
 				Hashtable h = p.parse(new InputStreamReader(res.getData("areas_20130820_utf8.txt"), "UTF-8"));
 				areaList = (Vector) h.get("root");
@@ -113,7 +112,6 @@ public class StateMachine extends StateMachineBase {
 			getLessonList();
 			m_optionsDirty = false;
 			return;
-			
 		}
 		if (lessonList == null || lessonList.size() == 0) {
 			checkOptionsAndLessonsVersion();
@@ -124,6 +122,8 @@ public class StateMachine extends StateMachineBase {
 	
 	private void setCoordinateLayout(){
 		Container mainContainer = findMainContainer();
+		if (mainContainer == null)
+			return;
 		int w = mainContainer.getWidth();
 		int h = mainContainer.getHeight();
 		mainContainer.setLayout(new CoordinateLayout(w, h));
@@ -315,12 +315,15 @@ public class StateMachine extends StateMachineBase {
 	}
 
 	private void getLessonList() {
+		Dialog d = (Dialog)createContainer("/theme.res", "GUI 3");
+		d.showModeless();
+		
 		InfiniteProgress inf = new InfiniteProgress();
 		Dialog progress = inf.showInifiniteBlocking();
-		getLessonList(progress);
+		getLessonList(progress, d);
 	}
 
-	private void getLessonList(final Dialog progress) {
+	private void getLessonList(final Dialog progress, final Dialog download) {
 		try {
 			ConnectionRequest req = new ConnectionRequest() {
 				protected void readResponse(InputStream input) throws IOException {
@@ -328,16 +331,25 @@ public class StateMachine extends StateMachineBase {
 						JSONParser p = new JSONParser();
 						Hashtable h = p.parse(new InputStreamReader(input));
 						lessonList = (Vector) h.get("root");
-						progress.dispose();
-						onLessonListUpdated();
 					}
 					catch(IOException ex) {
+						ex.printStackTrace();
+					}
+					try {
+						if (lessonList == null)
+							lessonList = new Vector();
+						progress.dispose();
+						download.dispose();
+						onLessonListUpdated();
+					}
+					catch(Exception ex) {
 						ex.printStackTrace();
 					}
 				}
 			};
 			if (areaId() == null || subAreaId() == null || clubId() == null || roomId() == null) {
 				progress.dispose();
+				download.dispose();
 				return;
 			}
 			req.setUrl("http://timetable.sinaapp.com/lessons/" + areaId() + "_" + subAreaId() + "_" + 
@@ -359,6 +371,8 @@ public class StateMachine extends StateMachineBase {
 		if (lessonList == null)
 			return;
 		Container mainContainer = findMainContainer();
+		if (mainContainer == null)
+			return;
 		int count = mainContainer.getComponentCount();
 		for (int i = count - 1; i >= 0; i--) {
 			Component c = mainContainer.getComponentAt(i);
@@ -398,7 +412,7 @@ public class StateMachine extends StateMachineBase {
 			//l.setCellRenderer(true);
 			mainContainer.addComponent(l);
 		}
-		mainForm.getContentPane().repaint();
+		mainForm.repaint();
 		
 		if (checkAfterRefresh)
 			checkOptionsAndLessonsVersion();
@@ -645,19 +659,18 @@ public class StateMachine extends StateMachineBase {
 
 	private Rectangle calculatePosition(String weekday, String start_time, String duration)
 	{
-		int w=1235;
-		int h=1000;
+		//int w=1235;
+		//int h=1000;
 		int t=66 + 1;
 		int l=154 + 1;
 		int cellw=154 - 3;
 		int sepw=3;
 		int cellh=67 - 3;
 		int seph=3;
-		int cols=7;
-		int rows=13;
+		//int cols=7;
+		//int rows=13;
 
 		int x = (int) (l + Integer.parseInt(weekday) * (cellw + sepw));
-		double temp1 = getRow(start_time);
 		int y1 = (int) (t + getRow(start_time) * (cellh + seph));
 		//int height = (int) ((Integer.parseInt(duration) / 60.0) * cellh);
 		int height = cellh;
@@ -668,7 +681,7 @@ public class StateMachine extends StateMachineBase {
 
 	private Rectangle convertToDisplay(Rectangle rc)
 	{
-		int w=1235;
+		//int w=1235;
 		int h=1000;
 
 		int x = (int) (rc.getX() / (double)h * image_h);
