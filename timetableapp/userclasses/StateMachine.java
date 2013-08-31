@@ -91,7 +91,12 @@ public class StateMachine extends StateMachineBase {
 				try {
 					mainForm.addOrientationListener(new ActionListener(){
 						public void actionPerformed(ActionEvent evt) {
-							refreshMainContainer(true);
+							try {
+								refreshMainContainer(true);
+							}
+							catch (Exception ex) {
+								ex.printStackTrace();
+							}   								
 						}
 					});
 					refreshMainContainer(true);
@@ -101,7 +106,7 @@ public class StateMachine extends StateMachineBase {
 				}            	
 			}
 		});
-		ut.schedule(10, false, f);
+		ut.schedule(50, false, f);
 	}
 
 	private void refreshMainContainer(boolean checkAfterRefresh) {
@@ -240,7 +245,7 @@ public class StateMachine extends StateMachineBase {
 				}
 			}
 		});
-		ut.schedule(10, false, f);
+		ut.schedule(50, false, f);
 	}
 
 	@Override    
@@ -368,60 +373,75 @@ public class StateMachine extends StateMachineBase {
 	}
 
 	private void refreshButtons(boolean checkAfterRefresh){
-		if (lessonList == null)
-			return;
-		Container mainContainer = findMainContainer();
-		if (mainContainer == null)
-			return;
-		int count = mainContainer.getComponentCount();
-		for (int i = count - 1; i >= 0; i--) {
-			Component c = mainContainer.getComponentAt(i);
-			if (c instanceof Button)
-				mainContainer.removeComponent(c);
-		}
-		for (int i = 0; i < lessonList.size(); i++) {
-			Hashtable entry = (Hashtable) lessonList.elementAt(i);
-
-			String weekday = (String)(entry.get("weekday"));
-			final String start_time = (String) entry.get("time");
-			final String durationMin = (String) entry.get("duration");
-			String duration = durationMin.substring(0, durationMin.length() - "MIN".length());
-			final String lesson = (String) entry.get("lesson");
-			final String lesson_chinese = (String) entry.get("lesson_chinese");
-			final String teacher = (String) entry.get("teacher");
-
-			Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, duration)); 
-
-			Button l = new Button(lesson_chinese);
-			l.setX(rc.getX());
-			l.setY(rc.getY());
-			l.setPreferredSize(rc.getSize());
-			l.setUIID("Following");
-			l.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					String text = lesson_chinese + "\n" + 
-							start_time + ", " + durationMin + "\n" +
-							teacher;
-					Dialog d = (Dialog)createContainer("/theme.res", "GUI 2");
-					findDialogLabel(d).setText(text);
-					d.setTitle(lesson);
-					d.show();
-					//Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
+		try {
+			if (lessonList == null)
+				return;
+			Container mainContainer = findMainContainer();
+			if (mainContainer == null)
+				return;
+			try {
+				int count = mainContainer.getComponentCount();
+				for (int j = count - 1; j >= 0; j--) {
+					Component c = mainContainer.getComponentAt(j);
+					if (c instanceof Button)
+						mainContainer.removeComponent(c);
 				}
-			});
-			//l.setCellRenderer(true);
-			mainContainer.addComponent(l);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			for (int i = 0; i < lessonList.size(); i++) {
+				Hashtable entry = (Hashtable) lessonList.elementAt(i);
+
+				String weekday = (String)(entry.get("weekday"));
+				final String start_time = (String) entry.get("time");
+				final String durationMin = (String) entry.get("duration");
+				String duration = durationMin.substring(0, durationMin.length() - "MIN".length());
+				final String lesson = (String) entry.get("lesson");
+				final String lesson_chinese = (String) entry.get("lesson_chinese");
+				final String teacher = (String) entry.get("teacher");
+
+				Rectangle rc = convertToDisplay(calculatePosition(weekday, start_time, duration)); 
+
+				Button l = new Button(lesson_chinese);
+				l.setX(rc.getX());
+				l.setY(rc.getY());
+				l.setPreferredSize(rc.getSize());
+				l.setUIID("Following");
+				l.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						String text = lesson_chinese + "\n" + 
+								start_time + ", " + durationMin + "\n" +
+								teacher;
+						Dialog d = (Dialog)createContainer("/theme.res", "GUI 2");
+						findDialogLabel(d).setText(text);
+						d.setTitle(lesson);
+						d.show();
+						//Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
+					}
+				});
+				//l.setCellRenderer(true);
+				mainContainer.addComponent(l);
+			}
+			mainForm.repaint();
+
+			if (checkAfterRefresh)
+				checkOptionsAndLessonsVersion();
 		}
-		mainForm.repaint();
-		
-		if (checkAfterRefresh)
-			checkOptionsAndLessonsVersion();
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
     protected void onGUI2_ButtonAction(Component c, ActionEvent event) {
-		Container rootContainerAncestor = getRootAncestor(c);
-		((Dialog) rootContainerAncestor).dispose();
+		try {
+			Container rootContainerAncestor = getRootAncestor(c);
+			((Dialog) rootContainerAncestor).dispose();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}   		
     }
 
 	private boolean initListModelAreaSpinner(GenericSpinner cmp) {
