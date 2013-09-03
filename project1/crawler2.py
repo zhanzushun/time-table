@@ -5,6 +5,7 @@ import urllib
 import urllib2
 import re
 import json
+import os
 import os.path
 import datetime
 
@@ -13,10 +14,12 @@ def main():
     errFileName = os.path.join(dir, 'err.log')
     areasFileName = os.path.join(dir, 'areas.txt')
     lessonsFileName = os.path.join(dir, 'lessons.txt')
-    htmlDir = os.path.join(dir, 'html_2013-08-26')
-    
+    htmlDir = os.path.join(dir, 'html_{0}'.format(str(datetime.date.today())))
+    if not os.path.exists(htmlDir):
+        os.makedirs(htmlDir)
+        
     with open(errFileName, 'w') as errFile:
-        areas = getAreas(False, htmlDir, errFile)
+        areas = getAreas(True, htmlDir, errFile)
         with open(areasFileName, 'w') as areasFile:
             areasFile.write(json.dumps(areas, indent = 4, ensure_ascii = False))
         with open(lessonsFileName, 'w') as lessonsFile:
@@ -104,7 +107,7 @@ def getAreas(downloadHtmlFiles, htmlDir, errFile):
                     err = "download club({0}) failed:".format(clubId)
                     print err
                     downloadCount += 1
-                    if (downloadCount >= 3):
+                    if (downloadCount >= 10):
                         print >>errFile, "!!!!!!!!", err
                         break
     return areas_result

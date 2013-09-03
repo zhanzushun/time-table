@@ -106,7 +106,7 @@ public class StateMachine extends StateMachineBase {
 				}            	
 			}
 		});
-		ut.schedule(50, false, f);
+		ut.schedule(20, false, f);
 	}
 
 	private void refreshMainContainer(boolean checkAfterRefresh) {
@@ -132,6 +132,7 @@ public class StateMachine extends StateMachineBase {
 		int w = mainContainer.getWidth();
 		int h = mainContainer.getHeight();
 		mainContainer.setLayout(new CoordinateLayout(w, h));
+		mainContainer.revalidate();
 
 		Label l = findLabel();
 		l.setX(0);
@@ -245,7 +246,7 @@ public class StateMachine extends StateMachineBase {
 				}
 			}
 		});
-		ut.schedule(50, false, f);
+		ut.schedule(20, false, f);
 	}
 
 	@Override    
@@ -284,8 +285,6 @@ public class StateMachine extends StateMachineBase {
 							lessonListVersion = newVersion;
 							onLessonListVersionUpdated();
 						}
-						else
-							checkLessonList();
 					}
 					catch(IOException ex) {
 						ex.printStackTrace();
@@ -303,15 +302,6 @@ public class StateMachine extends StateMachineBase {
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	private void checkLessonList() {
-		if (lessonList == null || m_optionsDirty) {
-			getLessonList();
-			m_optionsDirty = false;
-		}
-		else
-			refreshButtons(false);
 	}
 
 	private void onLessonListVersionUpdated() {
@@ -369,9 +359,35 @@ public class StateMachine extends StateMachineBase {
 
 	private void onLessonListUpdated() {
 		Storage.getInstance().writeObject("lessons", lessonList);
-		refreshButtons(false);
+		UITimer ut = new UITimer(new Runnable() {
+			public void run() {
+				try {
+					refreshButtons(false);
+				}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}            	
+			}
+		});
+		ut.schedule(10, false, mainForm);
 	}
 
+	private void removeButtons() {
+		Container mainContainer = findMainContainer();
+		if (mainContainer == null)
+			return;
+		try {
+			int count = mainContainer.getComponentCount();
+			for (int j = count - 1; j >= 0; j--) {
+				Component c = mainContainer.getComponentAt(j);
+				if (c instanceof Button)
+					mainContainer.removeComponent(c);
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}	
+	}
 	private void refreshButtons(boolean checkAfterRefresh){
 		try {
 			if (lessonList == null)
@@ -379,17 +395,8 @@ public class StateMachine extends StateMachineBase {
 			Container mainContainer = findMainContainer();
 			if (mainContainer == null)
 				return;
-			try {
-				int count = mainContainer.getComponentCount();
-				for (int j = count - 1; j >= 0; j--) {
-					Component c = mainContainer.getComponentAt(j);
-					if (c instanceof Button)
-						mainContainer.removeComponent(c);
-				}
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			removeButtons();
+			mainContainer.revalidate();
 			for (int i = 0; i < lessonList.size(); i++) {
 				Hashtable entry = (Hashtable) lessonList.elementAt(i);
 
@@ -423,8 +430,7 @@ public class StateMachine extends StateMachineBase {
 				//l.setCellRenderer(true);
 				mainContainer.addComponent(l);
 			}
-			mainForm.repaint();
-
+			mainContainer.setShouldCalcPreferredSize(true);
 			if (checkAfterRefresh)
 				checkOptionsAndLessonsVersion();
 		}
@@ -667,13 +673,18 @@ public class StateMachine extends StateMachineBase {
 
 		double result = 0;
 		String min_sec = time.substring(index + 1);
-		int index2 = min_sec.indexOf(":");
-		if (index2 == -1)
-			result = s_h;
-		else {
-			int s_m = Integer.parseInt(min_sec.substring(0, index2));
-			result = s_h + s_m / 60.0;
+		if (min_sec != null) {
+			int index2 = min_sec.indexOf(":");
+			if (index2 == -1){
+				result = s_h + Integer.parseInt(min_sec) / 60.0;
+			}
+			else {
+				int s_m = Integer.parseInt(min_sec.substring(0, index2));
+				result = s_h + s_m / 60.0;
+			}
 		}
+		else
+			result = s_h;
 		return (result - 9) / 13.0 /*hours*/ * 13.0 /*rows*/; // 13 rows present 13 hours starting from 9:00AM
 	}
 
