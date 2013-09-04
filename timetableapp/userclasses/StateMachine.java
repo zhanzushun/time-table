@@ -15,6 +15,7 @@ import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.UITimer;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
 
@@ -77,6 +78,7 @@ public class StateMachine extends StateMachineBase {
 				Hashtable h = p.parse(new InputStreamReader(res.getData("areas_20130820_utf8.txt"), "UTF-8"));
 				areaList = (Vector) h.get("root");
 			}
+			initedNetworkManager = false;
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -89,6 +91,8 @@ public class StateMachine extends StateMachineBase {
 		UITimer ut = new UITimer(new Runnable() {
 			public void run() {
 				try {
+					if (mainForm == null)
+						return;
 					mainForm.addOrientationListener(new ActionListener(){
 						public void actionPerformed(ActionEvent evt) {
 							try {
@@ -110,7 +114,7 @@ public class StateMachine extends StateMachineBase {
 	}
 
 	private void refreshMainContainer(boolean checkAfterRefresh) {
-		if (m_club != null)
+		if (m_club != null && mainForm != null)
 			mainForm.setTitle(m_club);
 		setCoordinateLayout();
 		if (m_optionsDirty){
@@ -135,6 +139,8 @@ public class StateMachine extends StateMachineBase {
 		mainContainer.revalidate();
 
 		Label l = findLabel();
+		if (l == null)
+			return;
 		l.setX(0);
 		l.setY(0);
 		image_h = l.getIcon().getHeight();
@@ -265,7 +271,97 @@ public class StateMachine extends StateMachineBase {
 			}    		
 		}	
 	}
+	
+	boolean initedNetworkManager;
+	private void disableAutoDetected() {
+		if (initedNetworkManager)
+			return;
+		try {
+			ConnectionRequest req = new ConnectionRequest() {
+				protected void readResponse(InputStream input) throws IOException {
+					// do nothing
+				}
+			};
+			req.setUrl("http://www.baidu.com");
+			req.setPost(false);
+			req.setFailSilently(true);
+			NetworkManager.getInstance().addToQueue(req);
+			try {
+				NetworkManager.getInstance().shutdownSync();
+			}
+			catch (Exception ex) {
+			}
+			try {
+				NetworkManager.getInstance().start();
+				NetworkManager.getInstance().killAndWait(req);
+			}
+			catch (Exception ex) {
+			}
+			NetworkManager.getInstance().addErrorListener(new ActionListener(){
+				public void actionPerformed(ActionEvent evt) {
+					try {
+						NetworkEvent ne = (NetworkEvent)evt;
+						if (ne == null || ne.getConnectionRequest() == null || ne.getError() == null)
+							return;
+						showDialog("Network Error", ne.getError().getMessage());
+						DisposeProgressDialog();
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		initedNetworkManager = true;
+	}
 
+	private void showDialog(final String title, final String body) {
+		try {
+			Dialog d = (Dialog)createContainer("/theme.res", "GUI 2");
+			findDialogLabel(d).setText(body);
+			d.setTitle(title);
+			d.show();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	Dialog progressDialog;
+	Dialog downloadDialog;
+	private void DisposeProgressDialog(){
+		try {
+			if (progressDialog != null) {
+				progressDialog.dispose();
+				progressDialog = null;
+			}
+			if (downloadDialog != null) {
+				downloadDialog.dispose();
+				downloadDialog = null;
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void connect(ConnectionRequest req, String url) {
+		try {
+			req.setUrl(url);
+			req.setPost(false);
+			req.setSilentRetryCount(0);
+			req.setFailSilently(true);
+			disableAutoDetected();
+			NetworkManager.getInstance().addToQueue(req);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	private void getLessonListVersion() {
 		try {
 			ConnectionRequest req = new ConnectionRequest() {
@@ -280,8 +376,7 @@ public class StateMachine extends StateMachineBase {
 							Hashtable entry = (Hashtable) versionList.elementAt(i);
 							newVersion = (String)(entry.get("version"));
 						}
-
-						if (!newVersion.equals(lessonListVersion)){
+						if (newVersion != null && !newVersion.equals(lessonListVersion)){
 							lessonListVersion = newVersion;
 							onLessonListVersionUpdated();
 						}
@@ -294,10 +389,9 @@ public class StateMachine extends StateMachineBase {
 			if (areaId() == null || subAreaId() == null || clubId() == null || roomId() == null) {
 				return;
 			}
-			req.setUrl("http://timetable.sinaapp.com/lessons/version/" + areaId() + "_"
-					+ subAreaId() + "_" + clubId() + "_" + roomId());
-			req.setPost(false);
-			NetworkManager.getInstance().addToQueue(req);
+			String url = "http://timetable.sinaapp.com/lessons/version/" + areaId() + "_"
+					+ subAreaId() + "_" + clubId() + "_" + roomId();
+			connect(req, url);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -310,18 +404,18 @@ public class StateMachine extends StateMachineBase {
 	}
 
 	private void getLessonList() {
-		Dialog d = (Dialog)createContainer("/theme.res", "GUI 3");
-		d.showModeless();
-		
+		downloadDialog = (Dialog)createContainer("/theme.res", "GUI 3");
+		downloadDialog.showModeless();
 		InfiniteProgress inf = new InfiniteProgress();
-		Dialog progress = inf.showInifiniteBlocking();
-		getLessonList(progress, d);
+		progressDialog = inf.showInifiniteBlocking();
+		getLessonListImpl();
 	}
 
-	private void getLessonList(final Dialog progress, final Dialog download) {
+	private void getLessonListImpl() {
 		try {
 			ConnectionRequest req = new ConnectionRequest() {
 				protected void readResponse(InputStream input) throws IOException {
+					DisposeProgressDialog();
 					try{
 						JSONParser p = new JSONParser();
 						Hashtable h = p.parse(new InputStreamReader(input));
@@ -333,8 +427,6 @@ public class StateMachine extends StateMachineBase {
 					try {
 						if (lessonList == null)
 							lessonList = new Vector();
-						progress.dispose();
-						download.dispose();
 						onLessonListUpdated();
 					}
 					catch(Exception ex) {
@@ -343,17 +435,16 @@ public class StateMachine extends StateMachineBase {
 				}
 			};
 			if (areaId() == null || subAreaId() == null || clubId() == null || roomId() == null) {
-				progress.dispose();
-				download.dispose();
+				DisposeProgressDialog();
 				return;
 			}
-			req.setUrl("http://timetable.sinaapp.com/lessons/" + areaId() + "_" + subAreaId() + "_" + 
-					clubId() + "_" + roomId());
-			req.setPost(false);
-			NetworkManager.getInstance().addToQueue(req);
+			String url = "http://timetable.sinaapp.com/lessons/" + areaId() + "_" + subAreaId() + "_" + 
+					clubId() + "_" + roomId();
+			connect(req, url);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
+			DisposeProgressDialog();
 		}
 	}
 
@@ -388,6 +479,7 @@ public class StateMachine extends StateMachineBase {
 			ex.printStackTrace();
 		}	
 	}
+	
 	private void refreshButtons(boolean checkAfterRefresh){
 		try {
 			if (lessonList == null)
@@ -420,11 +512,7 @@ public class StateMachine extends StateMachineBase {
 						String text = lesson_chinese + "\n" + 
 								start_time + ", " + durationMin + "\n" +
 								teacher;
-						Dialog d = (Dialog)createContainer("/theme.res", "GUI 2");
-						findDialogLabel(d).setText(text);
-						d.setTitle(lesson);
-						d.show();
-						//Dialog.show(lesson, text, Dialog.TYPE_INFO, null, "OK", null);
+						showDialog(lesson, text);
 					}
 				});
 				//l.setCellRenderer(true);
