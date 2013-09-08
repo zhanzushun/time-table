@@ -276,6 +276,7 @@ public class StateMachine extends StateMachineBase {
 	private void disableAutoDetected() {
 		if (initedNetworkManager)
 			return;
+		
 		try {
 			ConnectionRequest req = new ConnectionRequest() {
 				protected void readResponse(InputStream input) throws IOException {
@@ -297,25 +298,29 @@ public class StateMachine extends StateMachineBase {
 			}
 			catch (Exception ex) {
 			}
-			NetworkManager.getInstance().addErrorListener(new ActionListener(){
-				public void actionPerformed(ActionEvent evt) {
-					try {
-						NetworkEvent ne = (NetworkEvent)evt;
-						if (ne == null || ne.getConnectionRequest() == null || ne.getError() == null)
-							return;
-						showDialog("Network Error", ne.getError().getMessage());
-						DisposeProgressDialog();
-					}
-					catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-			});
+			addNetworkErrorListener();
+			initedNetworkManager = true;
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		initedNetworkManager = true;
+	}
+	
+	private void addNetworkErrorListener() {
+		NetworkManager.getInstance().addErrorListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				try {
+					NetworkEvent ne = (NetworkEvent)evt;
+					if (ne == null || ne.getConnectionRequest() == null || ne.getError() == null)
+						return;
+					showDialog("Network Error", ne.getError().getMessage());
+					DisposeProgressDialog();
+				}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 	}
 
 	private void showDialog(final String title, final String body) {
@@ -350,11 +355,11 @@ public class StateMachine extends StateMachineBase {
 
 	private void connect(ConnectionRequest req, String url) {
 		try {
+			disableAutoDetected();
 			req.setUrl(url);
 			req.setPost(false);
 			req.setSilentRetryCount(0);
 			req.setFailSilently(true);
-			disableAutoDetected();
 			NetworkManager.getInstance().addToQueue(req);
 		}
 		catch (Exception ex) {
@@ -457,10 +462,10 @@ public class StateMachine extends StateMachineBase {
 				}
 				catch (Exception ex) {
 					ex.printStackTrace();
-				}            	
+				}
 			}
 		});
-		ut.schedule(10, false, mainForm);
+		ut.schedule(20, false, mainForm);
 	}
 
 	private void removeButtons() {
