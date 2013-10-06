@@ -11,10 +11,11 @@ import datetime
 
 def main():
     dir = r'c:\temp'
-    errFileName = os.path.join(dir, 'err.log')
-    areasFileName = os.path.join(dir, 'areas.txt')
-    lessonsFileName = os.path.join(dir, 'lessons.txt')
-    htmlDir = os.path.join(dir, 'html_{0}'.format(str(datetime.date.today())))
+    today = datetime.date.today().strftime('%Y%m%d')
+    errFileName = os.path.join(dir, 'err_{0}.log'.format(today))
+    areasFileName = os.path.join(dir, 'areas_{0}.txt'.format(today))
+    lessonsFileName = os.path.join(dir, 'lessons_{0}.txt'.format(today))
+    htmlDir = os.path.join(dir, 'html_{0}'.format(today))
     if not os.path.exists(htmlDir):
         os.makedirs(htmlDir)
         

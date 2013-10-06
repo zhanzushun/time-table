@@ -75,11 +75,11 @@ def findClubRoom(clubId, roomId):
 def lessonsVersion(request, areaId, subAreaId, clubId, roomId):
     l = []
     d = {}
-    ver = findClubRoom(clubId, roomId).get('version')
-    if ver:
-        d['version'] = ver
-    else:
-        d['version'] = '20130826' 
+    #ver = findClubRoom(clubId, roomId).get('version')
+    #if ver:
+    #    d['version'] = ver
+    #else:
+    d['version'] = getMaxDateInFileName('lessons')
     l.append(d)
     return HttpResponse(json.dumps(l), content_type='application/json')
         
