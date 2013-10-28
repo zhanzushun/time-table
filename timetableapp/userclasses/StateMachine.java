@@ -273,31 +273,11 @@ public class StateMachine extends StateMachineBase {
 	}
 	
 	boolean initedNetworkManager;
-	private void disableAutoDetected() {
+	private void initNetworkManager() {
 		if (initedNetworkManager)
 			return;
-		
 		try {
-			ConnectionRequest req = new ConnectionRequest() {
-				protected void readResponse(InputStream input) throws IOException {
-					// do nothing
-				}
-			};
-			req.setUrl("http://www.baidu.com");
-			req.setPost(false);
-			req.setFailSilently(true);
-			NetworkManager.getInstance().addToQueue(req);
-			try {
-				NetworkManager.getInstance().shutdownSync();
-			}
-			catch (Exception ex) {
-			}
-			try {
-				NetworkManager.getInstance().start();
-				NetworkManager.getInstance().killAndWait(req);
-			}
-			catch (Exception ex) {
-			}
+			NetworkManager.setAutoDetectURL("http://www.baidu.com");
 			addNetworkErrorListener();
 			initedNetworkManager = true;
 		}
@@ -355,7 +335,7 @@ public class StateMachine extends StateMachineBase {
 
 	private void connect(ConnectionRequest req, String url) {
 		try {
-			disableAutoDetected();
+			initNetworkManager();
 			req.setUrl(url);
 			req.setPost(false);
 			req.setSilentRetryCount(0);
@@ -511,7 +491,7 @@ public class StateMachine extends StateMachineBase {
 				l.setX(rc.getX());
 				l.setY(rc.getY());
 				l.setPreferredSize(rc.getSize());
-				l.setUIID("Following");
+				l.setUIID("Followers");
 				l.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						String text = lesson_chinese + "\n" + 
