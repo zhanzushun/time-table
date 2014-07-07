@@ -146,84 +146,6 @@ public class StateMachine extends StateMachineBase {
 		image_h = l.getIcon().getHeight();
 	}    
 
-/*	private void getAreaListVersion() {
-		try {
-			ConnectionRequest req = new ConnectionRequest() {
-				protected void readResponse(InputStream input) throws IOException {
-					try{
-						String newAreaListVersion = null;
-
-						JSONParser p = new JSONParser();
-						Hashtable h = p.parse(new InputStreamReader(input));
-						Vector versionList = (Vector) h.get("root");
-						for (int i = 0; i < versionList.size(); i++) {
-							Hashtable entry = (Hashtable) versionList.elementAt(i);
-							newAreaListVersion = (String)(entry.get("version"));
-						}
-
-						if (!newAreaListVersion.equals(areaListVersion)){
-							areaListVersion = newAreaListVersion;
-							onAreaListVersionUpdated();
-						}
-						else {
-							checkAreaListAndOptions();
-						}
-					}
-					catch(IOException ex) {
-						ex.printStackTrace();
-					}
-				}
-			};
-			req.setUrl("http://timetable.sinaapp.com/areas/version");
-			req.setPost(false);
-			NetworkManager.getInstance().addToQueue(req);
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	private void checkAreaListAndOptions() {
-		if (areaList == null)
-			getAreaList();
-		else
-			checkOptionsAndLessonsVersion();
-	}
-	private void onAreaListVersionUpdated() {
-		getAreaList();
-	}
-
-	private void getAreaList() {
-		try {
-			ConnectionRequest req = new ConnectionRequest() {
-				protected void readResponse(InputStream input) throws IOException {
-					try{
-						JSONParser p = new JSONParser();
-						Hashtable h = p.parse(new InputStreamReader(input));
-						areaList = (Vector) h.get("root");
-						onAreaListUpdated();
-					}
-					catch(IOException ex) {
-						ex.printStackTrace();
-					}
-				}
-			};
-			req.setUrl("http://timetable.sinaapp.com/areas");
-			req.setPost(false);
-			NetworkManager.getInstance().addToQueue(req);
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	private void onAreaListUpdated() {
-		Storage.getInstance().writeObject("areas", areaList);
-		Storage.getInstance().writeObject("areas_version", areaListVersion);
-		checkOptionsAndLessonsVersion();
-	}
-	*/
-
 	private void checkOptionsAndLessonsVersion() {
 		if (m_area == null || m_subArea == null || m_club == null || m_roomIndex == null)
 			gotoOptionsForm();
@@ -277,7 +199,8 @@ public class StateMachine extends StateMachineBase {
 		if (initedNetworkManager)
 			return;
 		try {
-			NetworkManager.setAutoDetectURL("http://www.baidu.com");
+			NetworkManager.setAutoDetectURL("http://www.baidu.com/");
+			showDialog("debug only", NetworkManager.getAutoDetectURL());
 			addNetworkErrorListener();
 			initedNetworkManager = true;
 		}

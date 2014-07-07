@@ -10,6 +10,7 @@ package generated;
 import com.codename1.ui.*;
 import com.codename1.ui.util.*;
 import com.codename1.ui.plaf.*;
+import java.util.Hashtable;
 import com.codename1.ui.events.*;
 
 public abstract class StateMachineBase extends UIBuilder {
@@ -415,6 +416,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -459,6 +461,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -478,7 +481,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void beforeShowContainer(Container c) {
-    aboutToShowThisContainer = c;
+        aboutToShowThisContainer = c;
         if("GUI 3".equals(c.getName())) {
             beforeContainerGUI3(c);
             aboutToShowThisContainer = null;
@@ -503,6 +506,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -546,6 +550,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -589,6 +594,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -632,6 +638,7 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
+            return;
     }
 
 
@@ -650,11 +657,102 @@ public abstract class StateMachineBase extends UIBuilder {
     protected void onCreateGUI1() {
     }
 
+    protected Hashtable getFormState(Form f) {
+        Hashtable h = super.getFormState(f);
+        if("GUI 3".equals(f.getName())) {
+            getStateGUI3(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("GUI 2".equals(f.getName())) {
+            getStateGUI2(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("Main".equals(f.getName())) {
+            getStateMain(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("GUI 1".equals(f.getName())) {
+            getStateGUI1(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+            return h;
+    }
+
+
+    protected void getStateGUI3(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateGUI2(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateMain(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateGUI1(Form f, Hashtable h) {
+    }
+
+    protected void setFormState(Form f, Hashtable state) {
+        super.setFormState(f, state);
+        if("GUI 3".equals(f.getName())) {
+            setStateGUI3(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("GUI 2".equals(f.getName())) {
+            setStateGUI2(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("Main".equals(f.getName())) {
+            setStateMain(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("GUI 1".equals(f.getName())) {
+            setStateGUI1(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+            return;
+    }
+
+
+    protected void setStateGUI3(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateGUI2(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateMain(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateGUI1(Form f, Hashtable state) {
+    }
+
     protected void handleComponentAction(Component c, ActionEvent event) {
         Container rootContainerAncestor = getRootAncestor(c);
         if(rootContainerAncestor == null) return;
         String rootContainerName = rootContainerAncestor.getName();
-        if(c.getParent().getLeadParent() != null) {
+        Container leadParentContainer = c.getParent().getLeadParent();
+        if(leadParentContainer != null && leadParentContainer.getClass() != Container.class) {
             c = c.getParent().getLeadParent();
         }
         if(rootContainerName == null) return;

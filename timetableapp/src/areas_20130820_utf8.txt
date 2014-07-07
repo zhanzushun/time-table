@@ -1,0 +1,518 @@
+[
+    {
+        "area_id": "148", 
+        "subareas": [
+            {
+                "subarea": "青岛市", 
+                "subarea_id": "175", 
+                "clubs": [
+                    {
+                        "club": "A21青岛麦凯乐", 
+                        "club_id": "1460"
+                    }, 
+                    {
+                        "club": "A37青岛万科", 
+                        "club_id": "1461"
+                    }, 
+                    {
+                        "club": "A67青岛万达", 
+                        "club_id": "1462"
+                    }
+                ]
+            }
+        ], 
+        "area": "山东省"
+    }, 
+    {
+        "area_id": "146", 
+        "subareas": [
+            {
+                "subarea": "苏州市", 
+                "subarea_id": "172", 
+                "clubs": []
+            }, 
+            {
+                "subarea": "无锡市", 
+                "subarea_id": "173", 
+                "clubs": []
+            }, 
+            {
+                "subarea": "启东市", 
+                "subarea_id": "241", 
+                "clubs": []
+            }
+        ], 
+        "area": "江苏省"
+    }, 
+    {
+        "area_id": "142", 
+        "subareas": [
+            {
+                "subarea": "大连市", 
+                "subarea_id": "166", 
+                "clubs": [
+                    {
+                        "club": "A30大连新玛特", 
+                        "club_id": "1453"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "沈阳市", 
+                "subarea_id": "167", 
+                "clubs": [
+                    {
+                        "club": "沈阳新玛特会所", 
+                        "club_id": "1450"
+                    }, 
+                    {
+                        "club": "A31沈阳中兴", 
+                        "club_id": "1451"
+                    }
+                ]
+            }
+        ], 
+        "area": "辽宁省"
+    }, 
+    {
+        "area_id": "147", 
+        "subareas": [
+            {
+                "subarea": "吉林市", 
+                "subarea_id": "174", 
+                "clubs": []
+            }
+        ], 
+        "area": "吉林省"
+    }, 
+    {
+        "area_id": "122", 
+        "subareas": [
+            {
+                "subarea": "西城区", 
+                "subarea_id": "163", 
+                "clubs": [
+                    {
+                        "club": "A38北京嘉贸", 
+                        "club_id": "1454"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "朝阳区", 
+                "subarea_id": "164", 
+                "clubs": [
+                    {
+                        "club": "A39北京大使馆", 
+                        "club_id": "1455"
+                    }, 
+                    {
+                        "club": "A59北京望京华彩", 
+                        "club_id": "1456"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "通州区", 
+                "subarea_id": "381", 
+                "clubs": [
+                    {
+                        "club": "A89北京通州", 
+                        "club_id": "1701"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "东城区", 
+                "subarea_id": "481", 
+                "clubs": [
+                    {
+                        "club": "A95北京瑞士公寓", 
+                        "club_id": "1938"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "海淀区", 
+                "subarea_id": "501", 
+                "clubs": [
+                    {
+                        "club": "A104北京中关村", 
+                        "club_id": "1939"
+                    }
+                ]
+            }
+        ], 
+        "area": "北京市"
+    }, 
+    {
+        "area_id": "149", 
+        "subareas": [
+            {
+                "subarea": "珠海市", 
+                "subarea_id": "176", 
+                "clubs": []
+            }, 
+            {
+                "subarea": "深圳市", 
+                "subarea_id": "177", 
+                "clubs": [
+                    {
+                        "club": "A52深圳嘉信贸", 
+                        "club_id": "1458"
+                    }, 
+                    {
+                        "club": "A99深圳南山公馆", 
+                        "club_id": "1940"
+                    }
+                ]
+            }
+        ], 
+        "area": "广东省"
+    }, 
+    {
+        "area_id": "144", 
+        "subareas": [
+            {
+                "subarea": "郑州市", 
+                "subarea_id": "170", 
+                "clubs": []
+            }
+        ], 
+        "area": "河南省"
+    }, 
+    {
+        "area_id": "141", 
+        "subareas": [
+            {
+                "subarea": "河西区", 
+                "subarea_id": "165", 
+                "clubs": [
+                    {
+                        "club": "A23天津水晶城", 
+                        "club_id": "1457"
+                    }
+                ]
+            }
+        ], 
+        "area": "天津市"
+    }, 
+    {
+        "area_id": "143", 
+        "subareas": [
+            {
+                "subarea": "杭州市", 
+                "subarea_id": "168", 
+                "clubs": [
+                    {
+                        "club": "A41杭州滨江逸天", 
+                        "club_id": "1663"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "宁波市", 
+                "subarea_id": "169", 
+                "clubs": []
+            }
+        ], 
+        "area": "浙江省"
+    }, 
+    {
+        "area_id": "145", 
+        "subareas": [
+            {
+                "subarea": "武汉市", 
+                "subarea_id": "171", 
+                "clubs": [
+                    {
+                        "club": "A29武汉锦江", 
+                        "club_id": "1459"
+                    }
+                ]
+            }
+        ], 
+        "area": "湖北省"
+    }, 
+    {
+        "area_id": "121", 
+        "subareas": [
+            {
+                "subarea": "杨浦区", 
+                "subarea_id": "150", 
+                "clubs": [
+                    {
+                        "club": "A20上海五角场", 
+                        "club_id": "1420"
+                    }, 
+                    {
+                        "club": "A80上海创智坊", 
+                        "club_id": "1667"
+                    }, 
+                    {
+                        "club": "A01上海平凉", 
+                        "club_id": "1419"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "闸北区", 
+                "subarea_id": "151", 
+                "clubs": [
+                    {
+                        "club": "A26上海慧芝湖", 
+                        "club_id": "1424"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "普陀区", 
+                "subarea_id": "152", 
+                "clubs": [
+                    {
+                        "club": "A16上海梅川", 
+                        "club_id": "1415"
+                    }, 
+                    {
+                        "club": "A17上海中远两湾城", 
+                        "club_id": "1413"
+                    }, 
+                    {
+                        "club": "A19上海万里", 
+                        "club_id": "1416"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "虹口区", 
+                "subarea_id": "153", 
+                "clubs": [
+                    {
+                        "club": "A82上海溧阳华府", 
+                        "club_id": "1425"
+                    }, 
+                    {
+                        "club": "A35上海四川路", 
+                        "club_id": "1423"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "卢湾区", 
+                "subarea_id": "154", 
+                "clubs": []
+            }, 
+            {
+                "subarea": "宝山区", 
+                "subarea_id": "155", 
+                "clubs": [
+                    {
+                        "club": "A43上海北斗星", 
+                        "club_id": "1422"
+                    }, 
+                    {
+                        "club": "A03上海宝山", 
+                        "club_id": "1421"
+                    }, 
+                    {
+                        "club": "A96上海香逸湾", 
+                        "club_id": "1781"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "黄浦区", 
+                "subarea_id": "156", 
+                "clubs": [
+                    {
+                        "club": "A32上海城市", 
+                        "club_id": "1427"
+                    }, 
+                    {
+                        "club": "A84上海黄浦丽园", 
+                        "club_id": "1430"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "徐汇区", 
+                "subarea_id": "157", 
+                "clubs": [
+                    {
+                        "club": "A60上海田林", 
+                        "club_id": "1407"
+                    }, 
+                    {
+                        "club": "A04上海徐汇", 
+                        "club_id": "1661"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "金山区", 
+                "subarea_id": "158", 
+                "clubs": [
+                    {
+                        "club": "A88上海金山百联", 
+                        "club_id": "1681"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "松江区", 
+                "subarea_id": "159", 
+                "clubs": [
+                    {
+                        "club": "A27上海白马花园", 
+                        "club_id": "1668"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "长宁区", 
+                "subarea_id": "161", 
+                "clubs": [
+                    {
+                        "club": "A108上海东方曼哈顿", 
+                        "club_id": "2003"
+                    }, 
+                    {
+                        "club": "A94上海镇宁路", 
+                        "club_id": "1802"
+                    }, 
+                    {
+                        "club": "A10上海虹桥", 
+                        "club_id": "1412"
+                    }, 
+                    {
+                        "club": "A18上海中山公园", 
+                        "club_id": "1411"
+                    }, 
+                    {
+                        "club": "A54上海西郊百联", 
+                        "club_id": "1417"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "静安区", 
+                "subarea_id": "162", 
+                "clubs": [
+                    {
+                        "club": "A36上海南京西路", 
+                        "club_id": "1665"
+                    }, 
+                    {
+                        "club": "A90上海凯宾斯基", 
+                        "club_id": "1721"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "闵行区", 
+                "subarea_id": "361", 
+                "clubs": [
+                    {
+                        "club": "鑫都会所", 
+                        "club_id": "1963"
+                    }, 
+                    {
+                        "club": "A93上海万源城", 
+                        "club_id": "1761"
+                    }, 
+                    {
+                        "club": "A92上海皇室会", 
+                        "club_id": "1741"
+                    }, 
+                    {
+                        "club": "A97上海七宝", 
+                        "club_id": "1801"
+                    }, 
+                    {
+                        "club": "A12上海春申", 
+                        "club_id": "1404"
+                    }, 
+                    {
+                        "club": "A77上海仲盛世界商城", 
+                        "club_id": "1408"
+                    }, 
+                    {
+                        "club": "A11上海阳明", 
+                        "club_id": "1406"
+                    }, 
+                    {
+                        "club": "A83上海南方商城", 
+                        "club_id": "1410"
+                    }, 
+                    {
+                        "club": "A76上海古美", 
+                        "club_id": "1409"
+                    }, 
+                    {
+                        "club": "A34上海燕南园", 
+                        "club_id": "1405"
+                    }
+                ]
+            }, 
+            {
+                "subarea": "浦东新区", 
+                "subarea_id": "160", 
+                "clubs": [
+                    {
+                        "club": "A87上海联洋", 
+                        "club_id": "1443"
+                    }, 
+                    {
+                        "club": "A86上海阳光", 
+                        "club_id": "1442"
+                    }, 
+                    {
+                        "club": "A81上海世博村未来健身馆", 
+                        "club_id": "1441"
+                    }, 
+                    {
+                        "club": "A63上海大华锦绣", 
+                        "club_id": "1439"
+                    }, 
+                    {
+                        "club": "A53上海陆家嘴中央公寓", 
+                        "club_id": "1437"
+                    }, 
+                    {
+                        "club": "A06上海陆家嘴", 
+                        "club_id": "1436"
+                    }, 
+                    {
+                        "club": "A66上海浦东万达", 
+                        "club_id": "1438"
+                    }, 
+                    {
+                        "club": "A14上海证大", 
+                        "club_id": "1435"
+                    }, 
+                    {
+                        "club": "A70上海华润时代广场", 
+                        "club_id": "1434"
+                    }, 
+                    {
+                        "club": "A61上海尚东国际", 
+                        "club_id": "1433"
+                    }, 
+                    {
+                        "club": "A22上海三林", 
+                        "club_id": "1431"
+                    }, 
+                    {
+                        "club": "A107上海张江休闲体育中心", 
+                        "club_id": "1984"
+                    }, 
+                    {
+                        "club": "A65上海张扬路", 
+                        "club_id": "1664"
+                    }
+                ]
+            }
+        ], 
+        "area": "上海市"
+    }
+]

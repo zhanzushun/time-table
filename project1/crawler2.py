@@ -8,9 +8,13 @@ import json
 import os
 import os.path
 import datetime
+from shutil import copyfile
 
 def main():
-    dir = r'c:\temp'
+    dir = os.path.join(os.path.dirname(__file__), 'tempdata')
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+        
     today = datetime.date.today().strftime('%Y%m%d')
     errFileName = os.path.join(dir, 'err_{0}.log'.format(today))
     areasFileName = os.path.join(dir, 'areas_{0}.txt'.format(today))
@@ -37,6 +41,7 @@ def main():
                             lessonList.append(club_obj)
                             parseClub(clubId, htmlFile.read(), club_obj['rooms'], errFile)
             lessonsFile.write(json.dumps(lessonList, indent = 4, ensure_ascii = False))
+    copyfile(lessonsFileName, os.path.join(dir, '..', 'data', 'lessons_{0}.txt'.format(today)))
     
 def getAreas(downloadHtmlFiles, htmlDir, errFile):
     areas_result = []
