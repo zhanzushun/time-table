@@ -12,7 +12,14 @@ Project1 is server side written in Python
  - server returns JSON directly.
 
 timetableapp uses a cross-platform framework - component one, to implement a mobile app in java.
+ - main logic is placed in file StateMachine.java
+ - it initialises a picture of empty timetable as background
+ - user can select area, sub area, club, and room from options dialog
+ - According to user selection of location, the main logic sends request to server, and returns lessons
+ - According to returned lessons, the main logic generates buttons and places them into time table at the positons dynamically calculated from lessons' time.
+ - when user clicks on one of those buttons, the detail information of the lesson will popup.
 
+timetable_ios is an IOS version of app client, because there is performance issue of "component one" version.
 
 
 
