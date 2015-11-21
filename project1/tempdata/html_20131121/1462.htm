@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>韦德课表</title>
+<style type="text/css">
+<!--
+*{ padding:0; margin:0;}
+body{ font-size:12px; font-family:Arial, Helvetica, sans-serif;}
+.formtable{ border-collapse:collapse; margin:10px auto 0 auto;}
+.formtable td{ padding:5px 10px; text-align:center; border:1px solid #8c8c8d; line-height:18px;}
+.innerTable{border-collapse:collapse; }
+.innerTable td{ padding:0; border:none; text-align:left;}
+.toptab td{ border:none; padding:0;}
+-->
+<!--
+@media print{ 
+ .noprint {display:none;} 
+}
+.noprint td{font-size:12px;}
+*html div{background:transparent !important;}
+    .apDiv1 {
+	    position:absolute;
+	    width:0px;
+	    height:0px;
+	    z-index:1;
+    }
+    .apDiv2 {
+	    position:absolute;
+	    right:-10px;
+	    width:142px;
+	    height:142px;
+	    z-index:2;
+	    top: -129px;
+    }
+    .apDiv3 {
+	    position:absolute;
+	    right:-10px;
+	    width:161px;
+	    height:161px;
+	    z-index:2;
+	    top: -148px;
+    }
+-->
+</style>
+<object Classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2" height="0" id="WB" width="0"></object>
+<script language="javascript" type="text/javascript">
+    function doPrintSetup(){
+        WB.ExecWB(8,1)
+    }
+    function doPrintPreview(){
+        WB.ExecWB(7,1)
+    }
+</script>
+  
+  <script type="text/javascript">
+    //Tue Sep 14 09:24:21 CST 2010
+    function curNowDate() { 
+       var d = new Date(); 
+       var year = d.getFullYear(); 
+       var month = d.getMonth() + 1; 
+       var date = d.getDate(); 
+       var day = d.getDay(); 
+       var hour = d.getHours(); 
+       var minutes = d.getMinutes(); 
+       var seconds = d.getSeconds(); 
+       var curDateTime = year + "-"; 
+       if (month > 9) 
+        curDateTime = curDateTime + month + "-"; 
+       else 
+        curDateTime = curDateTime + "0" + month + "-"; 
+       if (date > 9) 
+        curDateTime = curDateTime + date + " "; 
+       else 
+        curDateTime = curDateTime + "0" + date + " "; 
+       if (hour > 9) 
+        curDateTime = curDateTime + hour + ":"; 
+       else 
+        curDateTime = curDateTime + "0" + hour + ":"; 
+       if (minutes > 9) 
+        curDateTime = curDateTime + minutes + ":"; 
+       else 
+        curDateTime = curDateTime + "0" + minutes + ":"; 
+       if (seconds > 9) 
+        curDateTime = curDateTime + seconds; 
+       else 
+        curDateTime = curDateTime + "0" + seconds; 
+
+        document.getElementById("div_nowdate").innerHTML = curDateTime.toString();
+    } 
+  </script>
+</head>
+
+<body onload="curNowDate();">
+<table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#999999" class="noprint">
+  <tr>
+    <td bgcolor="#efefef"><input type="button" name="button1" value="打印设置" onClick="return doPrintSetup()" />
+      <input type="button" name="button2" value="打印预览" onclick="return doPrintPreview()" />
+      <input type="button" name="button3" value="打印本页" onclick="javascript:print()" /> 注：使用打印功能需要将系统设置为安全站点。[<a href="setting.html" target="_blank">设置方法</a>]</td>
+  </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" class="formtable">
+  <tr>
+    <td colspan="8" align="left" style="text-align:left; border:0; padding:0;">
+    <div style="width:236px; float:left; height:150px;"><img alt="" src="images/logo1.jpg" width="236" height="51" style="margin-top:45px;" /></div>
+    <div style="width:750px; float:left; height:150px; padding-left:10px;"><img alt="" src="images/banner_download.gif" width="750" height="150" /></div>  
+    </td>
+  </tr>
+ 
+  <tr>
+    <td colspan="8" style="text-align:left; border:0; font:20px Arial, Helvetica, sans-serif; border-bottom:2px solid #c2c2c3; padding-left:0;">Tera Gx Schedule</td>
+  </tr>
+ 
+  <tr>
+    <td colspan="8" style="text-align:left; border:0; font:12px Arial, Helvetica, sans-serif; padding-left:0;"><div style="float:left;">This schedule was generated at&nbsp;</div><div id="div_nowdate" style="float:left;"></div></td>
+  </tr>
+  
+  <tr>
+      <td colspan="8" style="text-align:left; border:0; font:14px Arial, Helvetica, sans-serif; font-weight:bold; padding-left:0;">A67青岛万达                                                                                                                                                                                                 </td>
+    </tr>
+  <tr>
+<td colspan="8" style="text-align:left; border:0; font-family:Verdana, Arial, Helvetica, sans-serif; padding-left:0; color:#922f7b; font-size:14px; font-weight:bold;">有氧教室</td>
+</tr>
+<tr>
+<td width="60" bgcolor="#dcdcdf"><span style="color:#922f7b;">Time</span></td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Mon</span> (一)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Tue</span> (二)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Wed</span> (三)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Thu</span> (四)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Fri</span> (五)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sat</span> (六)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sun</span> (日)</td>
+<tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">12:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">NTCB*</span><br />NTC(B)<br />葛睿<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/hexinkongzhi><span class="f10">CORE CONTROLA**</span><br />核心控制(A)<br />解则余<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/dupiwu><span class="f10">BELLY DANCEA**</span><br />肚皮舞(A)<br />刘媛媛<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">BODY COMBATB***</span><br />有氧搏击(B)<br />解则余<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">15:00</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">NIKE ZUMBAB**</span><br />尊巴(B)<br />周惠<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">17:00</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/chujitaban><span class="f10">STEPA**</span><br />初级踏板(A)<br />解则余<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">18:00</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">BODY PUMPB***</span><br />燃脂雕塑(B)<br />解则余<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">18:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">NIKE ZUMBAB*</span><br />尊巴(B)<br />周惠<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">BODY JAMB**</span><br />漫步舞林(B)<br />郭德龙<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">BODYATTCKB***</span><br />身体律动(B)<br />周惠<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/minzuwu><span class="f10">FOLK DANCEB*</span><br />民族舞(B)<br />谭萌朦<br /><span class="f10">45MIN</span> </a></div></td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">19:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">STEPB**</span><br />中级踏板(B)<br />解则余<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">BODY COMBATB***</span><br />有氧搏击(B)<br />解则余<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SALSAB**</span><br />莎莎(国标)(B)<br />姚娜<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td colspan="8" style="text-align:left; border:0; font-family:Verdana, Arial, Helvetica, sans-serif; padding-left:0; color:#922f7b; font-size:14px; font-weight:bold;">单车教室</td>
+</tr>
+<tr>
+<td width="60" bgcolor="#dcdcdf"><span style="color:#922f7b;">Time</span></td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Mon</span> (一)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Tue</span> (二)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Wed</span> (三)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Thu</span> (四)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Fri</span> (五)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sat</span> (六)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sun</span> (日)</td>
+<tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">18:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGB***</span><br />SPINNING(B)<br />解则余<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGA**</span><br />SPINNING(A)<br />柳彦杰<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGA**</span><br />SPINNING(A)<br />刘大伟<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGA*</span><br />SPINNING(A)<br />郭杰<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">19:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGA*</span><br />SPINNING(A)<br />张军<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=><span class="f10">SPINNINGA**</span><br />SPINNING(A)<br />高娜<br /><span class="f10">45MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td colspan="8" style="text-align:left; border:0; font-family:Verdana, Arial, Helvetica, sans-serif; padding-left:0; color:#922f7b; font-size:14px; font-weight:bold;">瑜伽教室</td>
+</tr>
+<tr>
+<td width="60" bgcolor="#dcdcdf"><span style="color:#922f7b;">Time</span></td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Mon</span> (一)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Tue</span> (二)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Wed</span> (三)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Thu</span> (四)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Fri</span> (五)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sat</span> (六)</td>
+<td bgcolor="#dcdcdf"><span style="color:#922f7b; font-weight:bold;">Sun</span> (日)</td>
+<tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">12:15</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/hadayujia><span class="f10">HATHA YOGAA*</span><br />哈达瑜伽(A)<br />司松忆<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/hadayujia><span class="f10">HATHA YOGAA*</span><br />哈达瑜伽(A)<br />王紫烟<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">17:00</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/asitangjia><span class="f10">ASHTANGA YOGAB***</span><br />阿斯汤加瑜伽(B)<br />刘鹏崚<br /><span class="f10">55MIN</span> </a></div></td>
+</tr>
+<tr>
+<td bgcolor="#dcdcdf" style="color:#922f7b;">19:00</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/hadayujia><span class="f10">HATHA YOGAB**</span><br />哈达瑜伽(B)<br />李洪俊<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/hadayujia><span class="f10">HATHA YOGAB***</span><br />哈达瑜伽(B)<br />王紫烟<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/yujia><span class="f10">YOGAB**</span><br />瑜伽(B)<br />吴菲<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+<div class="lessonsRe" title=/video/liuyujia><span class="f10">FLOW YOGAA*</span><br />流瑜伽(A)<br />赵鸿雁<br /><span class="f10">55MIN</span> </a></div></td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+<td width="110" height="80" bgcolor="#efeff0">
+&nbsp;</td>
+</tr>
+
+  
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
