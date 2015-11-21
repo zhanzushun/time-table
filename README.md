@@ -23,4 +23,4 @@ timetable_ios is an IOS version of app client, because there is performance issu
 
 ![screenshot1](https://github.com/zhanzushun/timetable/blob/master/preview/480x854.jpg)
 
-![screenshot2](https://github.com/zhanzushun/timetable/blob/master/preview/640x960.jpg)
+![screenshot2](https://github.com/zhanzushun/timetable/blob/master/preview/640x960.png)
